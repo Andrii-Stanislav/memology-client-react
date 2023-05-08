@@ -21,7 +21,7 @@ export default function Home() {
   const memesIsLoaded = useAppSelector(allMemesIsLoaded);
   const memes = useAppSelector(allMemes);
 
-  const isLargeImage = (i: number) => i % 10 === 0;
+  const isLargeImage = (i: number) => i % 10 === 0 || (3 + i) % 10 === 0;
 
   if (!memesIsLoaded) {
     return (

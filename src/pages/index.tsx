@@ -10,7 +10,7 @@ import Register from "./Register";
 
 // protectedRoutes
 import HomePage from "./HomePage";
-import Game from "./Game";
+import Game from "./Game/Game";
 
 const publicRoutes = [
   {

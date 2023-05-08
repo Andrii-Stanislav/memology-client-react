@@ -26,7 +26,7 @@ const UserHeaderBlock = () => {
 
   return (
     <>
-      <IconButton aria-label="user-menu" size="large" onClick={openMenu}>
+      <IconButton aria-label="user-menu" onClick={openMenu}>
         <Person />
       </IconButton>
 
