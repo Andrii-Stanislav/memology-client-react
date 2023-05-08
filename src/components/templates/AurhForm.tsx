@@ -5,12 +5,10 @@ import { styled } from "@mui/material/styles";
 import {
   Button,
   TextField,
-  Link,
   Stack,
   Backdrop,
   CircularProgress,
   Typography,
-  Container,
 } from "@mui/material";
 
 import { LoginData } from "../../types/auth";
@@ -34,7 +32,7 @@ export const AurhForm = ({
   const onSubmit = handleSubmit(submitApiRequest);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <>
       <Stack direction="column" alignItems="center" pt={8}>
         <Typography component="h1" variant="h5">
           {title}
@@ -69,7 +67,7 @@ export const AurhForm = ({
       <Backdrop open={isSubmitting}>
         <CircularProgress color="inherit" />
       </Backdrop>
-    </Container>
+    </>
   );
 };
 

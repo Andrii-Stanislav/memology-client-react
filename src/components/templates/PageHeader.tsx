@@ -3,6 +3,8 @@ import { Button } from "@mui/material";
 
 import useAuth from "../../api/hooks/useAuth";
 
+import UserHeaderBlock from "./UserHeaderBlock";
+
 export const PageHeader = () => {
   const { signOut } = useAuth();
 
@@ -24,8 +26,11 @@ export const PageHeader = () => {
         <Link to="/">
           <Button>Home</Button>
         </Link>
+        <Link to="/game">
+          <Button>Game</Button>
+        </Link>
       </div>
-      <Button onClick={signOut}>Log out</Button>
+      <UserHeaderBlock />
     </header>
   );
 };

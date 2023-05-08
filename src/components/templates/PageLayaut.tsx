@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
 import useAuth from "../../api/hooks/useAuth";
-
+import { GradientBox } from "../shared";
 import { PageHeader } from "./PageHeader";
 
 type Props = {
@@ -37,27 +37,13 @@ const InnerWrapper = styled(Box)`
   width: 100%;
 `;
 
-const Background = styled("div")<{ isAuth: boolean }>`
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+const Background = styled(GradientBox)<{ isAuth: boolean }>`
   opacity: ${({ isAuth }) => (isAuth ? 0.6 : 1)};
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
   height: calc(100vh + 200px);
   width: calc(100vw + 200px);
   padding: 100px;
   position: fixed;
   top: -100px;
   left: -100px;
-
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
 `;

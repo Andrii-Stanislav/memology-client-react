@@ -1,7 +1,5 @@
 import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
 
 import { PublicRoute } from "../components/routes/PublicRoute";
 import { ProtectedRoute } from "../components/routes/ProtectedRoute";
@@ -12,6 +10,7 @@ import Register from "./Register";
 
 // protectedRoutes
 import HomePage from "./HomePage";
+import Game from "./Game";
 
 const publicRoutes = [
   {
@@ -31,6 +30,11 @@ const protectedRoutes = [
     key: "home",
     path: "/",
     component: <HomePage />,
+  },
+  {
+    key: "game",
+    path: "/game",
+    component: <Game />,
   },
 ];
 
