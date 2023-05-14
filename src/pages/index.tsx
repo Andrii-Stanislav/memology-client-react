@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import { ROUTES } from "../constants/routes";
 import { PublicRoute } from "../components/routes/PublicRoute";
 import { ProtectedRoute } from "../components/routes/ProtectedRoute";
 
@@ -9,18 +10,19 @@ import Login from "./Login";
 import Register from "./Register";
 
 // protectedRoutes
-import HomePage from "./HomePage";
-import Game from "./Game/Game";
+import Home from "./Home";
+import Game from "./Games";
+import GamePage from "./GamePage";
 
 const publicRoutes = [
   {
     key: "login",
-    path: "/login",
+    path: ROUTES.LOGIN,
     component: <Login />,
   },
   {
     key: "sign-up",
-    path: "/sign-up",
+    path: ROUTES.SIGN_UP,
     component: <Register />,
   },
 ];
@@ -28,13 +30,18 @@ const publicRoutes = [
 const protectedRoutes = [
   {
     key: "home",
-    path: "/",
-    component: <HomePage />,
+    path: ROUTES.HOME,
+    component: <Home />,
   },
   {
-    key: "game",
-    path: "/game",
+    key: "games",
+    path: ROUTES.GAMES,
     component: <Game />,
+  },
+  {
+    key: "gamesPage",
+    path: ROUTES.GAME_PAGE,
+    component: <GamePage />,
   },
 ];
 

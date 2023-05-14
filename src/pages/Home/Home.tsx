@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { useAppSelector } from "../store";
-import { allMemes, allMemesIsLoaded } from "../store/memes";
-import { Modal, GradientBox } from "../components/shared";
-import type { Meme } from "../types/meme";
+import { useAppSelector } from "../../store";
+import { allMemes, allMemesIsLoaded } from "../../store/memes";
+import { Modal, GradientBox } from "../../components/shared";
+import type { Meme } from "../../types/meme";
 
 export default function Home() {
   const [specificMeme, setSpecificMeme] = useState<Meme | null>(null);
@@ -39,8 +39,7 @@ export default function Home() {
             key={meme.id}
             cols={isLargeImage(index) ? 2 : 1}
             rows={isLargeImage(index) ? 2 : 1}
-            onClick={setSpecificMeme.bind(null, meme)}
-          >
+            onClick={setSpecificMeme.bind(null, meme)}>
             <img src={meme.image} alt={meme.title} loading="lazy" />
           </StyledImageListItem>
         ))}

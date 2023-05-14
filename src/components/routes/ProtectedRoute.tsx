@@ -23,7 +23,7 @@ export const ProtectedRoute = () => {
     if (data?.data) {
       dispatch(setAllMemes(data?.data ?? []));
     }
-  }, [data]);
+  }, [dispatch, data]);
 
   useEffect(() => {
     if (isAuth) {
@@ -32,7 +32,7 @@ export const ProtectedRoute = () => {
     return () => {
       socket.disconnect();
     };
-  }, [isAuth]);
+  }, [socket, isAuth]);
 
   return isAuth ? <Outlet /> : <Navigate to={"/login"} replace />;
 };

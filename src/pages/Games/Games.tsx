@@ -6,7 +6,7 @@ import { Modal } from "../../components/shared";
 import CreateForm from "./CreateForm";
 import JoinForm from "./JoinForm";
 
-const Game = () => {
+const Games = () => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
 
@@ -26,22 +26,19 @@ const Game = () => {
           spacing={4}
           maxWidth="400px"
           mr="auto"
-          ml="auto"
-        >
+          ml="auto">
           <Button
             variant="outlined"
             fullWidth
             size="large"
-            onClick={onCreateOpen}
-          >
+            onClick={onCreateOpen}>
             Creacte new game
           </Button>
           <Button
             variant="outlined"
             fullWidth
             size="large"
-            onClick={onJoinOpen}
-          >
+            onClick={onJoinOpen}>
             Join game
           </Button>
         </Stack>
@@ -57,4 +54,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default Games;

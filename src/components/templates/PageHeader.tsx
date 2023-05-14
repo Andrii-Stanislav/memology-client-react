@@ -3,6 +3,8 @@ import { Button, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
 
+import { ROUTES } from "../../constants/routes";
+
 import UserHeaderBlock from "./UserHeaderBlock";
 
 export const PageHeader = () => {
@@ -11,14 +13,14 @@ export const PageHeader = () => {
   return (
     <Header component="header">
       <Navigation>
-        <Link to="/">
-          <Button variant={pathname === "/" ? "contained" : "text"}>
+        <Link to={ROUTES.HOME}>
+          <Button variant={pathname === ROUTES.HOME ? "contained" : "text"}>
             / Home
           </Button>
         </Link>
-        <Link to="/game">
-          <Button variant={pathname === "/game" ? "contained" : "text"}>
-            / Game
+        <Link to={ROUTES.GAMES}>
+          <Button variant={pathname === ROUTES.GAMES ? "contained" : "text"}>
+            / Games
           </Button>
         </Link>
       </Navigation>
