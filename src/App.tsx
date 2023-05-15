@@ -1,16 +1,16 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { PageLayaut } from "./components/templates/PageLayaut";
+import { PageLayaut } from './components/templates/PageLayaut';
 
-import Pages from "./pages";
+import Pages from './pages';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#000",
-      contrastText: "#fff",
+      main: '#000',
+      contrastText: '#fff',
       // light: '',
       // dark: '',
     },

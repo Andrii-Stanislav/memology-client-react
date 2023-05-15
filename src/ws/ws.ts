@@ -1,5 +1,7 @@
-import { io } from "socket.io-client";
+import { Manager } from 'socket.io-client';
 
-export const socket = io("http://localhost:5001", {
+const socketManager = new Manager('http://localhost:5001', {
   autoConnect: false,
 });
+
+export const gameSocket = socketManager.socket('/game', {});

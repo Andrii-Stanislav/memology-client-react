@@ -1,20 +1,20 @@
-import { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
-import { getAllMemes } from "../../api/memes";
-import useAuth from "../../api/hooks/useAuth";
-import { useAppDispatch } from "../../store";
-import { setAllMemes } from "../../store/memes";
-import { useSocket } from "../../ws";
+import { getAllMemes } from '../../api/memes';
+import useAuth from '../../api/hooks/useAuth';
+import { ACCESS_TOKEN_KEY } from '../../constants/localStorage';
+import { useAppDispatch } from '../../store';
+import { setAllMemes } from '../../store/memes';
+import { gameSocket } from '../../ws';
 
 export const ProtectedRoute = () => {
-  const { isAuth } = useAuth();
   const dispatch = useAppDispatch();
-  const { socket } = useSocket();
+  const { isAuth } = useAuth();
 
   const { data } = useQuery({
-    queryKey: ["allMemes"],
+    queryKey: ['allMemes'],
     queryFn: getAllMemes,
     enabled: isAuth,
   });
@@ -27,12 +27,14 @@ export const ProtectedRoute = () => {
 
   useEffect(() => {
     if (isAuth) {
-      socket.connect();
+      const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+      gameSocket.auth = { token };
+      gameSocket.connect();
     }
     return () => {
-      socket.disconnect();
+      gameSocket.disconnect();
     };
-  }, [socket, isAuth]);
+  }, [isAuth]);
 
-  return isAuth ? <Outlet /> : <Navigate to={"/login"} replace />;
+  return isAuth ? <Outlet /> : <Navigate to={'/login'} replace />;
 };

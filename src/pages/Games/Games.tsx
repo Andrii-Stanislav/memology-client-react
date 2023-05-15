@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { Container, Stack, Button } from "@mui/material";
+import { useState } from 'react';
+import { Container, Stack, Button, Box } from '@mui/material';
+import { useNavigate, generatePath } from 'react-router-dom';
 
-import { Modal } from "../../components/shared";
+import { Modal } from '../../components/shared';
+import { ROUTES } from '../../constants/routes';
 
-import CreateForm from "./CreateForm";
-import JoinForm from "./JoinForm";
+import CreateForm from './CreateForm';
+import JoinForm from './JoinForm';
 
 const Games = () => {
+  const navigate = useNavigate();
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
 
@@ -15,6 +18,10 @@ const Games = () => {
 
   const onJoinOpen = () => setOpenJoin(true);
   const onCloseJoin = () => setOpenJoin(false);
+
+  const afterJoinOrCreate = (gameId: number) => {
+    navigate(generatePath(ROUTES.GAME_PAGE, { gameId: `${gameId}` }));
+  };
 
   return (
     <>
@@ -26,29 +33,34 @@ const Games = () => {
           spacing={4}
           maxWidth="400px"
           mr="auto"
-          ml="auto">
+          ml="auto"
+        >
           <Button
             variant="outlined"
             fullWidth
             size="large"
-            onClick={onCreateOpen}>
+            onClick={onCreateOpen}
+          >
             Creacte new game
           </Button>
           <Button
             variant="outlined"
             fullWidth
             size="large"
-            onClick={onJoinOpen}>
+            onClick={onJoinOpen}
+          >
             Join game
           </Button>
         </Stack>
       </Container>
 
       <Modal open={openCreate} onClose={onCreateClose}>
-        <CreateForm />
+        <CreateForm afterCreate={afterJoinOrCreate} />
       </Modal>
       <Modal open={openJoin} onClose={onCloseJoin}>
-        <JoinForm />
+        <Box width="300px">
+          <JoinForm afterJoin={afterJoinOrCreate} />
+        </Box>
       </Modal>
     </>
   );

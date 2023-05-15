@@ -1,14 +1,14 @@
-import { User } from "./user";
+import { User } from './user';
 
 export enum GAME_STATUS {
-  NOT_STARTED = "NOT_STARTED",
-  STARTED = "STARTED",
-  FINISHED = "FINISHED",
+  NOT_STARTED = 'NOT_STARTED',
+  STARTED = 'STARTED',
+  FINISHED = 'FINISHED',
 }
 
 export enum DEAL_STATUS {
-  STARTED = "STARTED",
-  FINISHED = "FINISHED",
+  STARTED = 'STARTED',
+  FINISHED = 'FINISHED',
 }
 
 export type Game = {
@@ -26,4 +26,25 @@ export type Game = {
   currentDealId: number | null;
   // TODO - describe
   deals: [];
+};
+
+export type Player = {
+  id: number;
+  name: string;
+  cards: string;
+  userId: number;
+  gameId: number;
+};
+
+export type CreateGameData = {
+  title: string;
+  playersCount: number;
+  totalCardsPerUser: number;
+  cardsOnHands: number;
+};
+
+export type JoinGameData = {
+  gameId: number;
+  joinCode: string;
+  playerName: string;
 };

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Dialog } from "@mui/material";
+import { ReactNode } from 'react';
+import { Dialog } from '@mui/material';
 
 type Props = {
   open: boolean;

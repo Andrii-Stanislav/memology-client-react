@@ -1,28 +1,33 @@
-import { Link } from "react-router-dom";
-import { Button, Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { Button, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
 
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from '../../constants/routes';
 
-import UserHeaderBlock from "./UserHeaderBlock";
+import UserHeaderBlock from './UserHeaderBlock';
+
+const ALLOWED_PATHS = ['/', '/games'];
 
 export const PageHeader = () => {
   const { pathname } = useLocation();
 
+  const getButtonSx = (path: string) =>
+    pathname === path ? { textDecoration: 'underline' } : {};
+
+  if (!ALLOWED_PATHS.includes(pathname)) {
+    return null;
+  }
+
   return (
     <Header component="header">
       <Navigation>
-        <Link to={ROUTES.HOME}>
-          <Button variant={pathname === ROUTES.HOME ? "contained" : "text"}>
-            / Home
-          </Button>
-        </Link>
-        <Link to={ROUTES.GAMES}>
-          <Button variant={pathname === ROUTES.GAMES ? "contained" : "text"}>
-            / Games
-          </Button>
-        </Link>
+        <NavLink to={ROUTES.HOME}>
+          <Button sx={getButtonSx(ROUTES.HOME)}>/ Home</Button>
+        </NavLink>
+        <NavLink to={ROUTES.GAMES}>
+          <Button sx={getButtonSx(ROUTES.GAMES)}>/ Games</Button>
+        </NavLink>
       </Navigation>
       <UserHeaderBlock />
     </Header>

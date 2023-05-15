@@ -1,8 +1,11 @@
-import { forwardRef } from "react";
-import { PatternFormat, PatternFormatProps } from "react-number-format";
-import { Button, Box, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { useForm } from "react-hook-form";
+import { forwardRef } from 'react';
+import { PatternFormat, PatternFormatProps } from 'react-number-format';
+import { Button, Box, Stack, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useForm } from 'react-hook-form';
+
+import { joinGame } from '../../api/games';
+import type { JoinGameData } from '../../types/game';
 
 type CustomProps = {
   value: string;
@@ -12,55 +15,87 @@ type CustomProps = {
 
 const NumericFormatCustom = forwardRef<PatternFormatProps, CustomProps>(
   function NumericFormatCustom(props, ref) {
-    return (
-      <PatternFormat getInputRef={ref} format="#  #  #  #  #  #" {...props} />
-    );
-  }
+    return <PatternFormat getInputRef={ref} format="######" {...props} />;
+  },
 );
 
-type FormData = {
-  joinCode: string;
+type Props = {
+  defaultValues?: Partial<JoinGameData>;
+  disabledGameId?: boolean;
+  disableJoinCode?: boolean;
+  afterJoin: (gameId: number) => void;
 };
 
-const JoinForm = () => {
-  const { register, handleSubmit, formState } = useForm<FormData>();
-  const { isSubmitting } = formState;
+const JoinForm = ({
+  defaultValues,
+  disabledGameId,
+  disableJoinCode,
+  afterJoin,
+}: Props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<JoinGameData>({
+    defaultValues,
+  });
 
-  const onSubmit = handleSubmit((values) => {
-    console.log("JoinForm: ", values.joinCode.replaceAll(" ", "").trim());
+  const onSubmit = handleSubmit(async values => {
+    try {
+      const { data } = await joinGame(values);
+      afterJoin(data.gameId);
+    } catch (error) {
+      // TODO - show error
+    }
   });
 
   return (
-    <ModalBox>
-      <Box p={2} width="300px" component="form" onSubmit={onSubmit}>
+    <Box
+      p={2}
+      maxWidth="300px"
+      width="100%"
+      component="form"
+      onSubmit={onSubmit}
+    >
+      <Stack spacing={2} width="auto">
+        <TextField
+          label="Game ID"
+          {...register('gameId')}
+          type="number"
+          fullWidth
+          variant="outlined"
+          disabled={disabledGameId || isSubmitting}
+        />
         <StyledTextField
           label="Game code"
-          {...register("joinCode")}
+          {...register('joinCode')}
           InputProps={{
             inputComponent: NumericFormatCustom as any,
           }}
+          defaultValue={defaultValues?.joinCode ?? ''}
+          fullWidth
+          variant="outlined"
+          disabled={disableJoinCode || isSubmitting}
+        />
+        <TextField
+          label="Player name"
+          {...register('playerName')}
           fullWidth
           variant="outlined"
           disabled={isSubmitting}
         />
-        <Box pt={2}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            disabled={isSubmitting}
-          >
-            Join
-          </Button>
-        </Box>
-      </Box>
-    </ModalBox>
+        <Button
+          type="submit"
+          fullWidth
+          variant="outlined"
+          disabled={isSubmitting}
+        >
+          Join
+        </Button>
+      </Stack>
+    </Box>
   );
 };
-
-const ModalBox = styled(Box)`
-  background-color: pink;
-`;
 
 const StyledTextField = styled(TextField)`
   input {
