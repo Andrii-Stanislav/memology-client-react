@@ -1,6 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { PageLayaut } from './components/templates/PageLayaut';
 
@@ -11,8 +13,6 @@ const theme = createTheme({
     primary: {
       main: '#000',
       contrastText: '#fff',
-      // light: '',
-      // dark: '',
     },
   },
 });
@@ -26,6 +26,7 @@ function App() {
         <CssBaseline />
         <PageLayaut>
           <Pages />
+          <ToastContainer position="top-center" hideProgressBar theme="dark" />
         </PageLayaut>
       </ThemeProvider>
     </QueryClientProvider>

@@ -7,6 +7,7 @@ import { ROUTES } from '../../constants/routes';
 
 import CreateForm from './CreateForm';
 import JoinForm from './JoinForm';
+import GamesTable from './GamesTable';
 
 const Games = () => {
   const navigate = useNavigate();
@@ -52,6 +53,10 @@ const Games = () => {
             Join game
           </Button>
         </Stack>
+
+        <Box pt={4}>
+          <GamesTable />
+        </Box>
       </Container>
 
       <Modal open={openCreate} onClose={onCreateClose}>

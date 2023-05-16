@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -6,36 +5,26 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
 
-import { getGameById } from '../../api/games';
-import { useAppDispatch, useAppSelector } from '../../store';
+import { useAppSelector } from '../../store';
 import { getUser } from '../../store/user';
-import { setCurrentGame } from '../../store/games';
 
 import useGameSocket from './useGameSocket';
 import JoinView from './JoinView';
 import GameplayView from './GameplayView';
+import useGetGame from './useGetGame';
+import useGetPlayers from './useGetPlayers';
 
 const GamePage = () => {
-  const dispatch = useAppDispatch();
   const { gameId } = useParams<{ gameId: string }>();
   useGameSocket({ gameId });
 
   const user = useAppSelector(getUser);
 
-  const { data, isFetched, refetch } = useQuery({
-    queryKey: ['getGameById', gameId!],
-    queryFn: ({ queryKey }) => getGameById(queryKey[1]),
-  });
+  const { game, isFetchedGame, refetchGame } = useGetGame(gameId!);
+  const { gamePlayers } = useGetPlayers(gameId!);
 
-  const game = data?.data;
-
-  useEffect(() => {
-    game && dispatch(setCurrentGame(game));
-  }, [dispatch, game]);
-
-  if (!isFetched) {
+  if (!isFetchedGame) {
     return (
       <Backdrop open>
         <CircularProgress color="inherit" />
@@ -53,17 +42,13 @@ const GamePage = () => {
     );
   }
 
-  if (game?.players.some(player => player.id === user?.id)) {
-    return (
-      <Container component="main">
-        <GameplayView game={game} />
-      </Container>
-    );
+  if (gamePlayers.some(player => player.userId === user?.id)) {
+    return <GameplayView game={game} />;
   }
 
   return (
     <Container component="main">
-      <JoinView game={game} refreshGame={refetch} />
+      <JoinView game={game} refreshGame={refetchGame} />
     </Container>
   );
 };

@@ -20,7 +20,6 @@ export type Game = {
   creator: User;
   creatorId: number;
   joinCode: string;
-  players: User[];
   playersCount: number;
   status: GAME_STATUS;
   currentDealId: number | null;

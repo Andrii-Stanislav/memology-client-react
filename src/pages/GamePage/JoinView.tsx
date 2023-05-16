@@ -14,7 +14,7 @@ type Props = {
 const JoinView = ({ game, refreshGame }: Props) => {
   const user = useAppSelector(getUser);
 
-  const isCreator = user?.id === game?.creator.id;
+  const isCreator = user?.id === game?.creator?.id;
 
   const defaultValues = {
     gameId: game?.id,
