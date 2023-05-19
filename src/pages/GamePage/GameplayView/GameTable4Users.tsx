@@ -20,8 +20,8 @@ const GameTable4Users = ({ players, mainPlayer }: Props) => {
     <Container>
       <CurrentUser>{mainPlayer.name}</CurrentUser>
       {players[0] && <FirstUser>{players[0].name}</FirstUser>}
-      {players[0] && <SecondUser>{players[0].name}</SecondUser>}
-      {players[0] && <ThirdUser>{players[0].name}</ThirdUser>}
+      {players[1] && <SecondUser>{players[1].name}</SecondUser>}
+      {players[2] && <ThirdUser>{players[2].name}</ThirdUser>}
     </Container>
   );
 };
@@ -30,8 +30,6 @@ export default GameTable4Users;
 
 const Container = styled(Box)`
   position: relative;
-  border: 1px solid red;
-  border-radius: 50%;
   height: 100%;
 `;
 

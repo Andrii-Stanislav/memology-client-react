@@ -17,7 +17,7 @@ const useGetGame = (gameId: string) => {
     data?.data && dispatch(setCurrentGame(data?.data));
   }, [dispatch, data?.data]);
 
-  return { game: data?.data, isFetchedGame: isFetched, refetchGame: refetch };
+  return { isFetchedGame: isFetched, updateGame: refetch };
 };
 
 export default useGetGame;

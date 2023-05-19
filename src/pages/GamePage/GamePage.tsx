@@ -8,6 +8,7 @@ import {
 
 import { useAppSelector } from '../../store';
 import { getUser } from '../../store/user';
+import { getCurrentGame, getCurrentGamePlayers } from '../../store/games';
 
 import useGameSocket from './useGameSocket';
 import JoinView from './JoinView';
@@ -17,14 +18,22 @@ import useGetPlayers from './useGetPlayers';
 
 const GamePage = () => {
   const { gameId } = useParams<{ gameId: string }>();
-  useGameSocket({ gameId });
+
+  const { isFetchedGame, updateGame } = useGetGame(gameId!);
+  const { isFetchedPlayers, updatePlayers } = useGetPlayers(gameId!);
+
+  useGameSocket({ gameId, updateGame, updatePlayers });
 
   const user = useAppSelector(getUser);
+  const game = useAppSelector(getCurrentGame);
+  const gamePlayers = useAppSelector(getCurrentGamePlayers);
 
-  const { game, isFetchedGame, refetchGame } = useGetGame(gameId!);
-  const { gamePlayers } = useGetPlayers(gameId!);
+  const afterJoin = () => {
+    updateGame();
+    updatePlayers();
+  };
 
-  if (!isFetchedGame) {
+  if (!isFetchedGame || !isFetchedPlayers) {
     return (
       <Backdrop open>
         <CircularProgress color="inherit" />
@@ -48,7 +57,7 @@ const GamePage = () => {
 
   return (
     <Container component="main">
-      <JoinView game={game} refreshGame={refetchGame} />
+      <JoinView game={game} afterJoin={afterJoin} />
     </Container>
   );
 };

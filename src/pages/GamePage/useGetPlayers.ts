@@ -8,7 +8,7 @@ import { setCurrentGamePlayers } from '../../store/games';
 const useGetPlayers = (gameId: string) => {
   const dispatch = useAppDispatch();
 
-  const { data } = useQuery({
+  const { data, isFetched, refetch } = useQuery({
     queryKey: ['getGamePlayers', gameId!],
     queryFn: ({ queryKey }) => getGamePlayers(queryKey[1]),
   });
@@ -17,7 +17,10 @@ const useGetPlayers = (gameId: string) => {
     data?.data && dispatch(setCurrentGamePlayers(data?.data));
   }, [dispatch, data?.data]);
 
-  return { gamePlayers: data?.data ?? [] };
+  return {
+    isFetchedPlayers: isFetched,
+    updatePlayers: refetch,
+  };
 };
 
 export default useGetPlayers;

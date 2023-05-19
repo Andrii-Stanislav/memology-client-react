@@ -1,12 +1,13 @@
 import { useEffect, useMemo } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { toast } from 'react-toastify';
 
+import { leavePlayerFromGame } from '../../../api/players';
 import type { Game } from '../../../types/game';
-import { useAppSelector } from '../../../store';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import { getCurrentGamePlayers, getOnlinePlayers } from '../../../store/games';
+import { clearPlayers, getCurrentGamePlayers } from '../../../store/games';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
 import GameTable4Users from './GameTable4Users';
@@ -18,10 +19,9 @@ type Props = {
 };
 
 const GameplayView = ({ game }: Props) => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
   const gamePlayers = useAppSelector(getCurrentGamePlayers);
-  const onlinePlayers = useAppSelector(getOnlinePlayers);
-  console.log('onlinePlayers: ', onlinePlayers);
 
   // const onTestMessage = () => {
   // toast('Test msg');
@@ -60,28 +60,8 @@ const GameplayView = ({ game }: Props) => {
       userId: user?.id,
     });
 
-    return () => {
-      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
-        gameId: game.id,
-        userId: user?.id,
-      });
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    const onLeaveGame = () => {
-      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
-        gameId: game.id,
-        userId: user?.id,
-      });
-    };
-
-    window.addEventListener('pagehide', onLeaveGame);
-    return () => {
-      window.removeEventListener('pagehide', onLeaveGame);
-    };
-  }, [game.id, user?.id]);
 
   const gameTable =
     game?.playersCount === 4 ? (
@@ -92,7 +72,29 @@ const GameplayView = ({ game }: Props) => {
       <GameTable6Users players={players} mainPlayer={mainPlayer} />
     ) : null;
 
-  return <Box height="100%">{gameTable}</Box>;
+  const onLeaveGame = () => {
+    const currentPlayer = gamePlayers.find(({ userId }) => userId === user?.id);
+    if (!currentPlayer) return;
+
+    leavePlayerFromGame(currentPlayer.id).then(() => {
+      dispatch(clearPlayers());
+      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
+        gameId: game.id,
+        userId: user?.id,
+      });
+    });
+  };
+
+  return (
+    <Box height="100%" position="relative">
+      {gameTable}
+      <Box position="absolute" top="5px" right="5px">
+        <Button size="small" onClick={onLeaveGame}>
+          Leave game
+        </Button>
+      </Box>
+    </Box>
+  );
 };
 
 export default GameplayView;

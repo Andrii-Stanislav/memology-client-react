@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { useForm } from "react-hook-form";
-import { styled } from "@mui/material/styles";
+import { ReactNode } from 'react';
+import { useForm } from 'react-hook-form';
+import { styled } from '@mui/material/styles';
 
 import {
   Button,
@@ -9,9 +9,10 @@ import {
   Backdrop,
   CircularProgress,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { LoginData } from "../../types/auth";
+import { LoginData } from '../../types/auth';
+import { PasswordTextField } from '../shared';
 
 type Props = {
   title: string;
@@ -40,18 +41,17 @@ export const AurhForm = ({
         <Form onSubmit={onSubmit}>
           <Stack direction="column" pt={2} spacing={2}>
             <TextField
-              {...register("email")}
+              {...register('email')}
               fullWidth
               label="Email Address"
               autoFocus
             />
-            <TextField
-              {...register("password")}
+            <PasswordTextField
+              {...register('password')}
               fullWidth
               label="Password"
-              type="password"
             />
-          </Stack>{" "}
+          </Stack>{' '}
           <Button
             type="submit"
             fullWidth
@@ -73,7 +73,7 @@ export const AurhForm = ({
 
 export default AurhForm;
 
-const Form = styled("form")`
+const Form = styled('form')`
   width: 100%;
   max-width: 400px;
 `;

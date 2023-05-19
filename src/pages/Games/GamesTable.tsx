@@ -12,10 +12,12 @@ import {
 } from '@mui/material';
 import { TagFaces, InsertPhoto } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { Link, generatePath } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 
 import { getAllGames } from '../../api/games';
+import { ROUTES } from '../../constants/routes';
 import { StatusBadge } from '../../components/shared';
 
 const GamesTable = () => {
@@ -32,6 +34,12 @@ const GamesTable = () => {
     // TODO
   };
 
+  if (isFetched && data?.data?.length === 0) {
+    return (
+      <Typography align="center">You don't have any created games</Typography>
+    );
+  }
+
   return (
     <>
       <Typography variant="h6" pb={2} align="center">
@@ -46,7 +54,15 @@ const GamesTable = () => {
             <Grid item key={game.id} xs={12} sm={6} md={4} lg={3}>
               <StyledCard>
                 <CardHeader
-                  title={game.title}
+                  title={
+                    <Link
+                      to={generatePath(ROUTES.GAME_PAGE, {
+                        gameId: `${game.id}`,
+                      })}
+                    >
+                      ID:{game.id} - {game.title}
+                    </Link>
+                  }
                   subheader={dayjs(game.createdAt).format('H:mm, YYYY-MM-DD')}
                 />
                 <StyledCardContent>

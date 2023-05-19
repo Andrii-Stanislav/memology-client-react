@@ -6,7 +6,6 @@ import type { StoreType } from '../store';
 const initialState = {
   currentGame: null as Game | null,
   currentGamePlayers: [] as Player[],
-  currentGameOnlinePlayers: [] as number[],
 };
 
 export const gamesSlice = createSlice({
@@ -19,31 +18,17 @@ export const gamesSlice = createSlice({
     setCurrentGamePlayers: (state, action: PayloadAction<Player[]>) => {
       state.currentGamePlayers = action.payload;
     },
-    onJoinPlayer: (state, action: PayloadAction<number>) => {
-      state.currentGameOnlinePlayers = [
-        ...state.currentGameOnlinePlayers,
-        action.payload,
-      ];
-    },
-    onLeavePlayer: (state, action: PayloadAction<number>) => {
-      state.currentGameOnlinePlayers = state.currentGameOnlinePlayers.filter(
-        userId => userId !== action.payload,
-      );
+    clearPlayers: state => {
+      state.currentGamePlayers = [];
     },
   },
 });
 
-export const {
-  setCurrentGame,
-  setCurrentGamePlayers,
-  onJoinPlayer,
-  onLeavePlayer,
-} = gamesSlice.actions;
+export const { setCurrentGame, setCurrentGamePlayers, clearPlayers } =
+  gamesSlice.actions;
 
 export default gamesSlice.reducer;
 
 export const getCurrentGame = (store: StoreType) => store.games.currentGame;
 export const getCurrentGamePlayers = (store: StoreType) =>
   store.games.currentGamePlayers;
-export const getOnlinePlayers = (store: StoreType) =>
-  store.games.currentGameOnlinePlayers;

@@ -8,10 +8,10 @@ import JoinForm from '../Games/JoinForm';
 
 type Props = {
   game: Game;
-  refreshGame: () => void;
+  afterJoin: () => void;
 };
 
-const JoinView = ({ game, refreshGame }: Props) => {
+const JoinView = ({ game, afterJoin }: Props) => {
   const user = useAppSelector(getUser);
 
   const isCreator = user?.id === game?.creator?.id;
@@ -22,13 +22,13 @@ const JoinView = ({ game, refreshGame }: Props) => {
   };
 
   return (
-    <Stack alignItems="center" spacing={2}>
+    <Stack alignItems="center" spacing={2} py={2}>
       <Typography variant="h5">Join {isCreator ? 'your' : ''} game</Typography>
       <JoinForm
         disabledGameId
         disableJoinCode={isCreator}
         defaultValues={defaultValues}
-        afterJoin={refreshGame}
+        afterJoin={afterJoin}
       />
     </Stack>
   );
