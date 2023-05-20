@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import type { Game, Player } from '../../types/game';
+import { Game, Player, PLAYER_STATUS } from '../../types/game';
 import type { StoreType } from '../store';
 
 const initialState = {
@@ -21,11 +21,22 @@ export const gamesSlice = createSlice({
     clearPlayers: state => {
       state.currentGamePlayers = [];
     },
+    setPlayerReady: (state, action: PayloadAction<number>) => {
+      state.currentGamePlayers = state.currentGamePlayers.map(player =>
+        player.userId === action.payload
+          ? { ...player, status: PLAYER_STATUS.READY }
+          : player,
+      );
+    },
   },
 });
 
-export const { setCurrentGame, setCurrentGamePlayers, clearPlayers } =
-  gamesSlice.actions;
+export const {
+  setCurrentGame,
+  setCurrentGamePlayers,
+  clearPlayers,
+  setPlayerReady,
+} = gamesSlice.actions;
 
 export default gamesSlice.reducer;
 

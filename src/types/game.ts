@@ -11,6 +11,11 @@ export enum DEAL_STATUS {
   FINISHED = 'FINISHED',
 }
 
+export enum PLAYER_STATUS {
+  WAITING = 'WAITING',
+  READY = 'READY',
+}
+
 export type Game = {
   id: number;
   title: string;
@@ -33,6 +38,7 @@ export type Player = {
   cards: string;
   userId: number;
   gameId: number;
+  status: PLAYER_STATUS;
 };
 
 export type CreateGameData = {

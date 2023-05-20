@@ -1,15 +1,22 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { Box, Button } from '@mui/material';
-import { toast } from 'react-toastify';
+import { Box, Button, Backdrop } from '@mui/material';
 
-import { leavePlayerFromGame } from '../../../api/players';
-import type { Game } from '../../../types/game';
+import {
+  setPlayerReadyForGame,
+  leavePlayerFromGame,
+} from '../../../api/players';
+import { PLAYER_STATUS, Game } from '../../../types/game';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import { clearPlayers, getCurrentGamePlayers } from '../../../store/games';
+import {
+  clearPlayers,
+  setPlayerReady,
+  getCurrentGamePlayers,
+} from '../../../store/games';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
+import GameTable3Users from './GameTable3Users';
 import GameTable4Users from './GameTable4Users';
 import GameTable5Users from './GameTable5Users';
 import GameTable6Users from './GameTable6Users';
@@ -23,48 +30,20 @@ const GameplayView = ({ game }: Props) => {
   const user = useAppSelector(getUser);
   const gamePlayers = useAppSelector(getCurrentGamePlayers);
 
-  // const onTestMessage = () => {
-  // toast('Test msg');
-  // gameSocket.emit(GAME_WS_KEYS.TEST_MESSAGE, {
-  //   gameId: game?.id,
-  //   qweqwe: 'qweqwewe',
-  //   someArray: [1, 2, 3],
-  //   num: 4356,
-  // });
-  // };
-
   const mainPlayer = useMemo(
-    () => ({
-      userId: user?.id!,
-      name: gamePlayers.find(({ userId }) => userId === user?.id)?.name ?? '',
-      isOnline: true,
-    }),
+    () => gamePlayers.find(({ userId }) => userId === user?.id)!,
     [user, gamePlayers],
   );
 
   const players = useMemo(
-    () =>
-      gamePlayers
-        .filter(({ userId }) => userId !== user?.id)
-        .map(player => ({
-          userId: player?.userId!,
-          name: player?.name!,
-          isOnline: true,
-        })),
+    () => gamePlayers.filter(({ userId }) => userId !== user?.id),
     [gamePlayers, user?.id],
   );
 
-  useEffect(() => {
-    gameSocket.emit(GAME_WS_KEYS.JOIN_GAME, {
-      gameId: game.id,
-      userId: user?.id,
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const gameTable =
-    game?.playersCount === 4 ? (
+    game?.playersCount === 3 ? (
+      <GameTable3Users players={players} mainPlayer={mainPlayer} />
+    ) : game?.playersCount === 4 ? (
       <GameTable4Users players={players} mainPlayer={mainPlayer} />
     ) : game?.playersCount === 5 ? (
       <GameTable5Users players={players} mainPlayer={mainPlayer} />
@@ -73,12 +52,19 @@ const GameplayView = ({ game }: Props) => {
     ) : null;
 
   const onLeaveGame = () => {
-    const currentPlayer = gamePlayers.find(({ userId }) => userId === user?.id);
-    if (!currentPlayer) return;
-
-    leavePlayerFromGame(currentPlayer.id).then(() => {
+    leavePlayerFromGame(mainPlayer.id).then(() => {
       dispatch(clearPlayers());
       gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
+        gameId: game.id,
+        userId: user?.id,
+      });
+    });
+  };
+
+  const onReadyClick = () => {
+    setPlayerReadyForGame(mainPlayer.id).then(() => {
+      dispatch(setPlayerReady(user?.id!));
+      gameSocket.emit(GAME_WS_KEYS.READY_FOR_GAME, {
         gameId: game.id,
         userId: user?.id,
       });
@@ -88,11 +74,20 @@ const GameplayView = ({ game }: Props) => {
   return (
     <Box height="100%" position="relative">
       {gameTable}
+
       <Box position="absolute" top="5px" right="5px">
         <Button size="small" onClick={onLeaveGame}>
           Leave game
         </Button>
       </Box>
+
+      {mainPlayer?.status === PLAYER_STATUS.WAITING && (
+        <Backdrop open>
+          <Button variant="contained" onClick={onReadyClick}>
+            I am ready
+          </Button>
+        </Backdrop>
+      )}
     </Box>
   );
 };

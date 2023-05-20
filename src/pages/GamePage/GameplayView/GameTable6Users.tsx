@@ -1,15 +1,11 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-type TablePlayer = {
-  userId: number;
-  name: string;
-  isOnline: boolean;
-};
+import { Player } from '../../../types/game';
 
 type Props = {
-  players: TablePlayer[];
-  mainPlayer: TablePlayer;
+  players: Player[];
+  mainPlayer: Player;
 };
 
 const GameTable6Users = ({ players, mainPlayer }: Props) => {

@@ -8,7 +8,7 @@ type Props = {
   mainPlayer: Player;
 };
 
-const GameTable4Users = ({ players, mainPlayer }: Props) => {
+const GameTable3Users = ({ players, mainPlayer }: Props) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 
@@ -27,16 +27,11 @@ const GameTable4Users = ({ players, mainPlayer }: Props) => {
           {players[1].name}
         </SecondUser>
       )}
-      {players[2] && (
-        <ThirdUser isReady={players[0].status === PLAYER_STATUS.READY}>
-          {players[2].name}
-        </ThirdUser>
-      )}
     </Container>
   );
 };
 
-export default GameTable4Users;
+export default GameTable3Users;
 
 const Container = styled(Box)`
   position: relative;
@@ -74,12 +69,6 @@ const FirstUser = styled(PlayerEl)`
 `;
 
 const SecondUser = styled(PlayerEl)`
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const ThirdUser = styled(PlayerEl)`
   bottom: 50%;
   right: 0;
   transform: translateY(50%);

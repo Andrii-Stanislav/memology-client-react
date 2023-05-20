@@ -1,10 +1,11 @@
-import { ReactNode } from "react";
-import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { ReactNode } from 'react';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
-import useAuth from "../../api/hooks/useAuth";
-import { GradientBox } from "../shared";
-import { PageHeader } from "./PageHeader";
+import useAuth from '../../api/hooks/useAuth';
+import { GradientBox } from '../shared';
+import { PageHeader } from './PageHeader';
+import { BackgroundAudio } from './BackgroundAudio';
 
 type Props = {
   children: ReactNode;
@@ -21,6 +22,7 @@ export const PageLayaut = ({ children }: Props) => {
 
         {children}
       </InnerWrapper>
+      <BackgroundAudio />
     </Wrapper>
   );
 };
@@ -37,7 +39,13 @@ const InnerWrapper = styled(Box)`
   width: 100%;
 `;
 
-const Background = styled(GradientBox)<{ isAuth: boolean }>`
+type BackgroundProps = {
+  isAuth: boolean;
+};
+
+const Background = styled(({ isAuth, ...props }: BackgroundProps) => (
+  <GradientBox {...props} />
+))`
   opacity: ${({ isAuth }) => (isAuth ? 0.6 : 1)};
   background-size: 400% 400%;
   height: calc(100vh + 200px);
