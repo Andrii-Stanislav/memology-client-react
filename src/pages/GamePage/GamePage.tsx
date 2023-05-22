@@ -9,6 +9,7 @@ import {
 import { useAppSelector } from '../../store';
 import { getUser } from '../../store/user';
 import { getCurrentGame, getCurrentGamePlayers } from '../../store/games';
+import { gameSocket, GAME_WS_KEYS } from '../../ws';
 
 import useGameSocket from './useGameSocket';
 import JoinView from './JoinView';
@@ -29,6 +30,10 @@ const GamePage = () => {
   const gamePlayers = useAppSelector(getCurrentGamePlayers);
 
   const afterJoin = () => {
+    gameSocket.emit(GAME_WS_KEYS.READY_FOR_GAME, {
+      gameId: gameId,
+      userId: user?.id,
+    });
     updateGame();
     updatePlayers();
   };

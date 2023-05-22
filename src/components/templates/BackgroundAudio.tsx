@@ -7,7 +7,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 
-import sound from './fluffingADuck.mp3';
+import sound from '../../assets/sounds/fluffing_a_duck.mp3';
 
 export const BackgroundAudio = () => {
   const [isPaused, setIsPaused] = useState(false);
