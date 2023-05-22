@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Backdrop } from '@mui/material';
 
@@ -6,14 +7,11 @@ import {
   setPlayerReadyForGame,
   leavePlayerFromGame,
 } from '../../../api/players';
+import { ROUTES } from '../../../constants/routes';
 import { PLAYER_STATUS, Game } from '../../../types/game';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import {
-  clearPlayers,
-  setPlayerReady,
-  getCurrentGamePlayers,
-} from '../../../store/games';
+import { setPlayerReady } from '../../../store/games';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
 import GameTable3Users from './GameTable3Users';
@@ -23,21 +21,23 @@ import GameTable6Users from './GameTable6Users';
 
 type Props = {
   game: Game;
+  updateGame: () => void;
 };
 
-const GameplayView = ({ game }: Props) => {
+const GameplayView = ({ game, updateGame }: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const user = useAppSelector(getUser);
-  const gamePlayers = useAppSelector(getCurrentGamePlayers);
 
   const mainPlayer = useMemo(
-    () => gamePlayers.find(({ userId }) => userId === user?.id)!,
-    [user, gamePlayers],
+    () => game.players.find(({ userId }) => userId === user?.id)!,
+    [user, game],
   );
 
   const players = useMemo(
-    () => gamePlayers.filter(({ userId }) => userId !== user?.id),
-    [gamePlayers, user?.id],
+    () => game.players.filter(({ userId }) => userId !== user?.id),
+    [game, user?.id],
   );
 
   const gameTable =
@@ -53,11 +53,11 @@ const GameplayView = ({ game }: Props) => {
 
   const onLeaveGame = () => {
     leavePlayerFromGame(mainPlayer.id).then(() => {
-      dispatch(clearPlayers());
       gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
         gameId: game.id,
         userId: user?.id,
       });
+      navigate(ROUTES.GAMES);
     });
   };
 

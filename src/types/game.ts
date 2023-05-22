@@ -16,30 +16,51 @@ export enum PLAYER_STATUS {
   READY = 'READY',
 }
 
-export type Game = {
-  id: number;
-  title: string;
-  cards: string;
-  cardsOnHands: number;
-  createdAt: string;
-  creator: User;
-  creatorId: number;
-  joinCode: string;
-  playersCount: number;
-  status: GAME_STATUS;
-  currentDealId: number | null;
-  // TODO - describe
-  deals: [];
-};
-
 export type Player = {
   id: number;
   name: string;
-  cards: string;
+  status: PLAYER_STATUS;
+  cards: number[];
   userId: number;
   gameId: number;
-  status: PLAYER_STATUS;
+  createdAt: string;
 };
+
+export type Bet = {
+  id: number;
+  userId: number;
+  cardId: number;
+  dealId: number;
+};
+
+export type Deal = {
+  id: number;
+  status: DEAL_STATUS;
+  situationId: number;
+  gameId: number;
+  vinnerId: number | null;
+  judgeId: number;
+  bets: Bet[];
+};
+
+export type Game = {
+  id: number;
+  title: string;
+  status: GAME_STATUS;
+  joinCode: string;
+  currentDealId: number | null;
+  creatorId: number;
+  playersCount: number;
+  cardsOnHands: number;
+  cards: number[];
+  situations: number[];
+  createdAt: string;
+  creator: User;
+  deals: Deal[];
+  players: Player[];
+};
+
+// * Form Data
 
 export type CreateGameData = {
   title: string;

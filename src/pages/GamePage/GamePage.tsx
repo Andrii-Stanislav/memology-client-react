@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -5,40 +6,46 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 
-import { useAppSelector } from '../../store';
+import { getGameById } from '../../api/games';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { getUser } from '../../store/user';
-import { getCurrentGame, getCurrentGamePlayers } from '../../store/games';
+import { setCurrentGame } from '../../store/games';
 import { gameSocket, GAME_WS_KEYS } from '../../ws';
 
 import useGameSocket from './useGameSocket';
 import JoinView from './JoinView';
 import GameplayView from './GameplayView';
-import useGetGame from './useGetGame';
-import useGetPlayers from './useGetPlayers';
 
 const GamePage = () => {
   const { gameId } = useParams<{ gameId: string }>();
 
-  const { isFetchedGame, updateGame } = useGetGame(gameId!);
-  const { isFetchedPlayers, updatePlayers } = useGetPlayers(gameId!);
+  const dispatch = useAppDispatch();
 
-  useGameSocket({ gameId, updateGame, updatePlayers });
+  const { data, isFetched, refetch } = useQuery({
+    queryKey: ['getGameById', gameId!],
+    queryFn: ({ queryKey }) => getGameById(queryKey[1]),
+  });
+
+  useEffect(() => {
+    data?.data && dispatch(setCurrentGame(data?.data));
+  }, [dispatch, data?.data]);
+
+  useGameSocket({ gameId, updateGame: refetch });
 
   const user = useAppSelector(getUser);
-  const game = useAppSelector(getCurrentGame);
-  const gamePlayers = useAppSelector(getCurrentGamePlayers);
+  const game = data?.data;
 
   const afterJoin = () => {
     gameSocket.emit(GAME_WS_KEYS.READY_FOR_GAME, {
       gameId: gameId,
       userId: user?.id,
     });
-    updateGame();
-    updatePlayers();
+    refetch();
   };
 
-  if (!isFetchedGame || !isFetchedPlayers) {
+  if (!isFetched) {
     return (
       <Backdrop open>
         <CircularProgress color="inherit" />
@@ -56,8 +63,8 @@ const GamePage = () => {
     );
   }
 
-  if (gamePlayers.some(player => player.userId === user?.id)) {
-    return <GameplayView game={game} />;
+  if (game.players.some(player => player.userId === user?.id)) {
+    return <GameplayView game={game} updateGame={refetch} />;
   }
 
   return (
