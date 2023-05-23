@@ -1,21 +1,18 @@
 import { Box, BoxProps } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { Player, PLAYER_STATUS } from '../../../types/game';
+import { PLAYER_STATUS } from '../../../types/game';
 
-type Props = {
-  players: Player[];
-  mainPlayer: Player;
-};
+import type { GameTableProps } from './types';
 
-export const GameTable4Users = ({ players, mainPlayer }: Props) => {
+export const GameTable4Users = ({ players, mainPlayer }: GameTableProps) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 
   return (
     <Container>
-      <CurrentUser isReady={mainPlayer.status === PLAYER_STATUS.READY}>
-        {mainPlayer.name}
+      <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>
+        {mainPlayer?.name}
       </CurrentUser>
       {players[0] && (
         <FirstUser isReady={players[0].status === PLAYER_STATUS.READY}>

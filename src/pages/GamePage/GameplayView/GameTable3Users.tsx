@@ -1,30 +1,30 @@
-import { Box, BoxProps } from '@mui/material';
+import { Box, Paper, PaperProps, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { Player, PLAYER_STATUS } from '../../../types/game';
+import { PLAYER_STATUS } from '../../../types/game';
 
-type Props = {
-  players: Player[];
-  mainPlayer: Player;
-};
+import type { GameTableProps } from './types';
 
-export const GameTable3Users = ({ players, mainPlayer }: Props) => {
-  // console.log('mainPlayer: ', mainPlayer);
-  // console.log('players: ', players);
+export const GameTable3Users = ({
+  players,
+  mainPlayer,
+  cards,
+}: GameTableProps) => {
+  console.log('cards: ', cards);
 
   return (
     <Container>
-      <CurrentUser isReady={mainPlayer.status === PLAYER_STATUS.READY}>
-        {mainPlayer.name}
+      <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>
+        <PlayerName>{mainPlayer?.name}</PlayerName>
       </CurrentUser>
       {players[0] && (
         <FirstUser isReady={players[0].status === PLAYER_STATUS.READY}>
-          {players[0].name}
+          <PlayerName>{players[0].name}</PlayerName>
         </FirstUser>
       )}
       {players[1] && (
         <SecondUser isReady={players[0].status === PLAYER_STATUS.READY}>
-          {players[1].name}
+          <PlayerName>{players[1].name}</PlayerName>
         </SecondUser>
       )}
     </Container>
@@ -36,12 +36,12 @@ const Container = styled(Box)`
   height: 100%;
 `;
 
-interface PlayerElProps extends BoxProps {
+interface PlayerElProps extends PaperProps {
   isReady: boolean;
 }
 
 const PlayerEl = styled(({ isReady, ...props }: PlayerElProps) => (
-  <Box {...props} />
+  <Paper elevation={6} {...props} />
 ))`
   position: absolute;
   width: 200px;
@@ -49,7 +49,6 @@ const PlayerEl = styled(({ isReady, ...props }: PlayerElProps) => (
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000;
   border-radius: 50%;
   background-color: ${({ isReady }) => (isReady ? 'transparent' : 'gray')};
 `;
@@ -70,4 +69,8 @@ const SecondUser = styled(PlayerEl)`
   bottom: 50%;
   right: 0;
   transform: translateY(50%);
+`;
+
+const PlayerName = styled(Typography)`
+  text-transform: uppercase;
 `;

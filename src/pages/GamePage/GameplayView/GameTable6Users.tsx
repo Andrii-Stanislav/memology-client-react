@@ -1,14 +1,9 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { Player } from '../../../types/game';
+import type { GameTableProps } from './types';
 
-type Props = {
-  players: Player[];
-  mainPlayer: Player;
-};
-
-export const GameTable6Users = ({ players, mainPlayer }: Props) => {
+export const GameTable6Users = ({ players, mainPlayer }: GameTableProps) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 

@@ -10,7 +10,7 @@ import {
 import { styled } from '@mui/material/styles';
 
 import { useAppSelector } from '../../store';
-import { allMemes, allMemesIsLoaded } from '../../store/memes';
+import { getAllMemes, allMemesIsLoaded } from '../../store/memes';
 import { Modal, GradientBox } from '../../components/shared';
 import type { Meme } from '../../types/meme';
 
@@ -19,7 +19,7 @@ export const Home = () => {
   const handleClose = () => setSpecificMeme(null);
 
   const memesIsLoaded = useAppSelector(allMemesIsLoaded);
-  const memes = useAppSelector(allMemes);
+  const memes = useAppSelector(getAllMemes);
 
   const isLargeImage = (i: number) => i % 10 === 0 || (3 + i) % 10 === 0;
 

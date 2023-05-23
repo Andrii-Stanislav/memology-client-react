@@ -9,9 +9,7 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setCurrentGame: (state, action: PayloadAction<Game>) => {
-      state = action.payload;
-    },
+    setCurrentGame: (state, action: PayloadAction<Game>) => action.payload,
     cleaCurrentGame: state => {
       state = initialState;
     },
@@ -30,4 +28,5 @@ export const { setCurrentGame, cleaCurrentGame, setPlayerReady } =
 
 export const gameReducer = gameSlice.reducer;
 
+export const hasNoGame = (store: StoreType) => store.game.id === 0;
 export const getCurrentGame = (store: StoreType) => store.game;

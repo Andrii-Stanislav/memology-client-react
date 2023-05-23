@@ -4,11 +4,9 @@ import {
   AxiosInstance,
   AxiosResponse,
 } from 'axios';
+import { toast } from 'react-toastify';
 
-import {
-  ACCESS_TOKEN_KEY,
-  REQUEST_HEADER_AUTH_KEY,
-} from '../constants/localStorage';
+import { ACCESS_TOKEN_KEY } from '../constants/localStorage';
 
 const onRequest = (
   config: InternalAxiosRequestConfig,
@@ -16,7 +14,7 @@ const onRequest = (
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
   if (accessToken) {
-    config.headers[REQUEST_HEADER_AUTH_KEY] = `Bearer ${accessToken}`;
+    config.headers.authorization = `Bearer ${accessToken}`;
   }
 
   return config;
@@ -31,6 +29,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
+  toast.error(error.toString());
   return Promise.reject(error);
 };
 

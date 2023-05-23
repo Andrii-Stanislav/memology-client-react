@@ -29,4 +29,4 @@ export const { setAllMemes } = memesSlice.actions;
 export const memesReducer = memesSlice.reducer;
 
 export const allMemesIsLoaded = (store: StoreType) => store.memes.isLoaded;
-export const allMemes = (store: StoreType) => store.memes.allMemesList;
+export const getAllMemes = (store: StoreType) => store.memes.allMemesList;

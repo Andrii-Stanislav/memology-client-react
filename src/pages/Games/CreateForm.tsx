@@ -7,7 +7,7 @@ import type { CreateGameData } from '../../types/game';
 const Form = {
   defaultValues: {
     title: '',
-    playersCount: 4,
+    playersCount: 3,
     totalCardsPerUser: 20,
     cardsOnHands: 5,
   },

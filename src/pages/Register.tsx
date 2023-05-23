@@ -15,7 +15,9 @@ export const Register = () => {
         submitApiRequest={signUp}
         anotherFormLink={
           <Link to="/login">
-            <Button fullWidth>Sign In</Button>
+            <Button size="small" sx={{ textTransform: 'none' }} fullWidth>
+              go to login
+            </Button>
           </Link>
         }
       />

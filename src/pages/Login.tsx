@@ -10,12 +10,14 @@ export const Login = () => {
   return (
     <Container component="main" maxWidth="xs">
       <AurhForm
-        title="Sign in"
-        buttonText="Sign in"
+        title="Log in"
+        buttonText="Log in"
         submitApiRequest={signIn}
         anotherFormLink={
           <Link to="/sign-up">
-            <Button fullWidth>Sign Up</Button>
+            <Button size="small" sx={{ textTransform: 'none' }} fullWidth>
+              go to sign-up
+            </Button>
           </Link>
         }
       />

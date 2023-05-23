@@ -15,6 +15,7 @@ import { setCurrentGame } from '../../store/game';
 import { gameSocket, GAME_WS_KEYS } from '../../ws';
 
 import { useGameSocket } from './useGameSocket';
+import { GameBackground } from './GameBackground';
 import { JoinView } from './JoinView';
 import { GameplayView } from './GameplayView';
 
@@ -24,9 +25,8 @@ export const GamePage = () => {
   const dispatch = useAppDispatch();
 
   const { data, isFetched, refetch } = useQuery({
-    queryKey: ['getGameById', gameId!],
-    queryFn: ({ queryKey }) => getGameById(queryKey[1]),
-    retry: 1,
+    queryKey: ['getGameById', gameId],
+    queryFn: ({ queryKey }) => getGameById(queryKey[1]!),
   });
 
   useEffect(() => {
@@ -65,12 +65,18 @@ export const GamePage = () => {
   }
 
   if (game.players.some(player => player.userId === user?.id)) {
-    return <GameplayView updateGame={refetch} />;
+    return (
+      <GameBackground gameName={game.title}>
+        <GameplayView updateGame={refetch} />;
+      </GameBackground>
+    );
   }
 
   return (
     <Container component="main">
-      <JoinView afterJoin={afterJoin} />
+      <GameBackground gameName={game.title}>
+        <JoinView afterJoin={afterJoin} />
+      </GameBackground>
     </Container>
   );
 };

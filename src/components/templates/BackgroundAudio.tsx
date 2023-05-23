@@ -1,11 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
-import { SpeedDial, SpeedDialAction } from '@mui/material';
-
-import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
+import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@mui/material';
+import {
+  Audiotrack,
+  VolumeMute,
+  VolumeUp,
+  PlayArrow,
+  Pause,
+  Close,
+} from '@mui/icons-material';
 
 import sound from '../../assets/sounds/fluffing_a_duck.mp3';
 import {
@@ -74,10 +76,10 @@ export const BackgroundAudio = () => {
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'absolute', bottom: 8, left: 8 }}
-        icon={<AudiotrackIcon />}
+        icon={<SpeedDialIcon icon={<Audiotrack />} openIcon={<Close />} />}
       >
         <SpeedDialAction
-          icon={isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+          icon={isPaused ? <PlayArrow /> : <Pause />}
           tooltipTitle={isPaused ? 'Play' : 'Pause'}
           onClick={onPlayToggle}
         />
@@ -85,14 +87,14 @@ export const BackgroundAudio = () => {
         <SpeedDialAction icon={Math.round(volume * 10)} tooltipTitle="Volume" />
 
         <SpeedDialAction
-          icon={<VolumeMuteIcon />}
+          icon={<VolumeMute />}
           tooltipTitle="Volume Mute"
           disableTouchListener={volume <= 0}
           onClick={onVolumeMute}
         />
 
         <SpeedDialAction
-          icon={<VolumeUpIcon />}
+          icon={<VolumeUp />}
           tooltipTitle="Volume Up"
           disableTouchListener={volume >= 1}
           onClick={onVolumeUp}

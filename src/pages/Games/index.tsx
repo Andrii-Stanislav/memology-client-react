@@ -62,6 +62,7 @@ export const Games = () => {
       <Modal open={openCreate} onClose={onCreateClose}>
         <CreateForm afterCreate={afterJoinOrCreate} />
       </Modal>
+
       <Modal open={openJoin} onClose={onCloseJoin}>
         <Box width="300px">
           <JoinForm afterJoin={afterJoinOrCreate} />

@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 
 import { useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import { getCurrentGame } from '../../../store/game';
+import { hasNoGame, getCurrentGame } from '../../../store/game';
 
 import { JoinForm } from '../../Games/JoinForm';
 
@@ -13,6 +13,11 @@ type Props = {
 export const JoinView = ({ afterJoin }: Props) => {
   const user = useAppSelector(getUser);
   const game = useAppSelector(getCurrentGame);
+  const noGame = useAppSelector(hasNoGame);
+
+  if (noGame) {
+    return null;
+  }
 
   const isCreator = user?.id === game?.creator?.id;
 

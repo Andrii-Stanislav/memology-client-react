@@ -1,23 +1,21 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Backdrop } from '@mui/material';
 
-import {
-  setPlayerReadyForGame,
-  leavePlayerFromGame,
-} from '../../../api/players';
-import { ROUTES } from '../../../constants/routes';
+import { setPlayerReadyForGame } from '../../../api/players';
 import { PLAYER_STATUS } from '../../../types/game';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import { setPlayerReady, getCurrentGame } from '../../../store/game';
+import { setPlayerReady, getCurrentGame, hasNoGame } from '../../../store/game';
+import { getAllMemes } from '../../../store/memes';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
 import { GameTable3Users } from './GameTable3Users';
 import { GameTable4Users } from './GameTable4Users';
 import { GameTable5Users } from './GameTable5Users';
 import { GameTable6Users } from './GameTable6Users';
+import { GameTableUnsaported } from './GameTableUnsaported';
+import { LeaveGame } from './LeaveGame';
 
 type Props = {
   updateGame: () => void;
@@ -25,10 +23,11 @@ type Props = {
 
 export const GameplayView = ({ updateGame }: Props) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
+  const allMemes = useAppSelector(getAllMemes);
   const user = useAppSelector(getUser);
   const game = useAppSelector(getCurrentGame);
+  const noGame = useAppSelector(hasNoGame);
 
   const mainPlayer = useMemo(
     () => game.players.find(({ userId }) => userId === user?.id)!,
@@ -40,26 +39,25 @@ export const GameplayView = ({ updateGame }: Props) => {
     [game, user?.id],
   );
 
-  const gameTable =
-    game?.playersCount === 3 ? (
-      <GameTable3Users players={players} mainPlayer={mainPlayer} />
-    ) : game?.playersCount === 4 ? (
-      <GameTable4Users players={players} mainPlayer={mainPlayer} />
-    ) : game?.playersCount === 5 ? (
-      <GameTable5Users players={players} mainPlayer={mainPlayer} />
-    ) : game?.playersCount === 6 ? (
-      <GameTable6Users players={players} mainPlayer={mainPlayer} />
-    ) : null;
+  const GameTable = useMemo(
+    () =>
+      game?.playersCount === 3
+        ? GameTable3Users
+        : game?.playersCount === 4
+        ? GameTable4Users
+        : game?.playersCount === 5
+        ? GameTable5Users
+        : game?.playersCount === 6
+        ? GameTable6Users
+        : GameTableUnsaported,
+    [game?.playersCount],
+  );
 
-  const onLeaveGame = () => {
-    leavePlayerFromGame(mainPlayer.id).then(() => {
-      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, {
-        gameId: game.id,
-        userId: user?.id,
-      });
-      navigate(ROUTES.GAMES);
-    });
-  };
+  if (noGame || !mainPlayer) {
+    return null;
+  }
+
+  const cards = allMemes.filter(meme => mainPlayer.cards.includes(meme.id));
 
   const onReadyClick = () => {
     setPlayerReadyForGame(mainPlayer.id).then(() => {
@@ -72,14 +70,14 @@ export const GameplayView = ({ updateGame }: Props) => {
   };
 
   return (
-    <Box height="100%" position="relative">
-      {gameTable}
+    <Box height="100%" p={2} position="relative">
+      <GameTable players={players} mainPlayer={mainPlayer} cards={cards} />
 
-      <Box position="absolute" top="5px" right="5px">
-        <Button size="small" onClick={onLeaveGame}>
-          Leave game
-        </Button>
-      </Box>
+      <LeaveGame
+        mainPlayerId={mainPlayer.id}
+        gameId={game.id}
+        userId={user?.id!}
+      />
 
       {mainPlayer?.status === PLAYER_STATUS.WAITING && (
         <Backdrop open>

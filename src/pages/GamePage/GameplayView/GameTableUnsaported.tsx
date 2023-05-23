@@ -3,11 +3,14 @@ import { styled } from '@mui/material/styles';
 
 import type { GameTableProps } from './types';
 
-export const GameTable5Users = ({ players, mainPlayer }: GameTableProps) => {
+export const GameTableUnsaported = ({
+  players,
+  mainPlayer,
+}: GameTableProps) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 
-  return <Container>5</Container>;
+  return <Container>GameTableUnsaported</Container>;
 };
 
 const Container = styled(Box)`
