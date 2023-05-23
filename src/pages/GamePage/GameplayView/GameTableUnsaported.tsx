@@ -7,9 +7,6 @@ export const GameTableUnsaported = ({
   players,
   mainPlayer,
 }: GameTableProps) => {
-  // console.log('mainPlayer: ', mainPlayer);
-  // console.log('players: ', players);
-
   return <Container>GameTableUnsaported</Container>;
 };
 

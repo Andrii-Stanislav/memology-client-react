@@ -20,7 +20,7 @@ export const useAuth = () => {
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
       navigate('/');
     } catch (error) {
-      console.log('error: ', error);
+      // TODO
     }
   };
 
@@ -31,7 +31,7 @@ export const useAuth = () => {
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
       navigate('/');
     } catch (error) {
-      console.log('error: ', error);
+      // TODO
     }
   };
 

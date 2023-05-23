@@ -6,9 +6,6 @@ import { PLAYER_STATUS } from '../../../types/game';
 import type { GameTableProps } from './types';
 
 export const GameTable4Users = ({ players, mainPlayer }: GameTableProps) => {
-  // console.log('mainPlayer: ', mainPlayer);
-  // console.log('players: ', players);
-
   return (
     <Container>
       <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>

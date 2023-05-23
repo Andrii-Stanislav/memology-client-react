@@ -13,7 +13,7 @@ export const GameBackground = ({ gameName, children }: Props) => {
   return (
     <Background>
       <RunningLineBox>
-        <RunningLine height="100px">
+        <RunningLine height="10vw">
           <GameName>{gameName}</GameName>
         </RunningLine>
       </RunningLineBox>
@@ -33,7 +33,7 @@ const Background = styled(Box)`
 
 const RunningLineBox = styled(Box)`
   position: absolute;
-  top: 60%;
+  top: 50%;
   left: 0;
   width: 100%;
   height: 100px;

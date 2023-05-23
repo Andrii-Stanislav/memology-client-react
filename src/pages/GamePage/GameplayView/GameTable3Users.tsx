@@ -1,21 +1,22 @@
-import { Box, Paper, PaperProps, Typography } from '@mui/material';
+import { Paper, PaperProps, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { PLAYER_STATUS } from '../../../types/game';
 
 import type { GameTableProps } from './types';
+import { CardsDialog } from './CardsDialog';
 
 export const GameTable3Users = ({
   players,
   mainPlayer,
   cards,
 }: GameTableProps) => {
-  console.log('cards: ', cards);
-
   return (
-    <Container>
+    <>
       <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>
-        <PlayerName>{mainPlayer?.name}</PlayerName>
+        <CardsDialog cards={cards}>
+          <PlayerName>{mainPlayer?.name}</PlayerName>
+        </CardsDialog>
       </CurrentUser>
       {players[0] && (
         <FirstUser isReady={players[0].status === PLAYER_STATUS.READY}>
@@ -27,14 +28,9 @@ export const GameTable3Users = ({
           <PlayerName>{players[1].name}</PlayerName>
         </SecondUser>
       )}
-    </Container>
+    </>
   );
 };
-
-const Container = styled(Box)`
-  position: relative;
-  height: 100%;
-`;
 
 interface PlayerElProps extends PaperProps {
   isReady: boolean;
@@ -46,15 +42,13 @@ const PlayerEl = styled(({ isReady, ...props }: PlayerElProps) => (
   position: absolute;
   width: 200px;
   height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   background-color: ${({ isReady }) => (isReady ? 'transparent' : 'gray')};
+  overflow: hidden;
 `;
 
 const CurrentUser = styled(PlayerEl)`
-  bottom: 0;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 `;
