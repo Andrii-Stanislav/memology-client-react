@@ -8,42 +8,65 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 
 import sound from '../../assets/sounds/fluffing_a_duck.mp3';
+import {
+  BACKGORUND_MUSIC_PAUSE,
+  BACKGORUND_MUSIC_VOLUME,
+} from '../../constants/localStorage';
 
 export const BackgroundAudio = () => {
-  const [isPaused, setIsPaused] = useState(false);
+  const initIsPaused = 'true' === localStorage.getItem(BACKGORUND_MUSIC_PAUSE);
+  const initVolume = localStorage.getItem(BACKGORUND_MUSIC_VOLUME);
+
+  const [isPaused, setIsPaused] = useState(initIsPaused);
   const [volume, setVolume] = useState(0.5);
 
   const myAudio = useMemo(() => new Audio(sound), []);
 
-  useEffect(() => {
-    myAudio.volume = 0.5;
+  const onPlay = () => {
+    setIsPaused(false);
     myAudio.play();
+    localStorage.setItem(BACKGORUND_MUSIC_PAUSE, 'false');
+  };
+
+  const onPause = () => {
+    setIsPaused(true);
+    myAudio.pause();
+    localStorage.setItem(BACKGORUND_MUSIC_PAUSE, 'true');
+  };
+
+  const setNewVolume = (newVolume: number) => {
+    setVolume(newVolume);
+    localStorage.setItem(BACKGORUND_MUSIC_VOLUME, `${newVolume}`);
+    myAudio.volume = newVolume;
+  };
+
+  useEffect(() => {
+    const volumeNum = Number(initVolume);
+
+    if (!isNaN(volumeNum) && 0.1 <= volumeNum && 1 >= volumeNum) {
+      setNewVolume(volumeNum);
+    } else {
+      setNewVolume(0.5);
+    }
+
+    if (!initIsPaused) {
+      onPlay();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onPlayToggle = () => {
-    if (isPaused) {
-      myAudio.play();
-      setIsPaused(false);
-    } else {
-      myAudio.pause();
-      setIsPaused(true);
-    }
-  };
+  const onPlayToggle = () => (isPaused ? onPlay() : onPause());
 
   const onVolumeUp = () => {
     if (volume >= 1) return;
     const newVolume = (Math.round(volume * 10) + 1) / 10;
-    setVolume(newVolume);
-    myAudio.volume = newVolume;
+    setNewVolume(newVolume);
   };
 
   const onVolumeMute = () => {
     if (volume <= 0.1) return;
-
     const newVolume = (Math.round(volume * 10) - 1) / 10;
-    setVolume(newVolume);
-    myAudio.volume = newVolume;
+    setNewVolume(newVolume);
   };
 
   return (
