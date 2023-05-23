@@ -8,14 +8,12 @@ type Props = {
   mainPlayer: Player;
 };
 
-const GameTable6Users = ({ players, mainPlayer }: Props) => {
+export const GameTable6Users = ({ players, mainPlayer }: Props) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 
   return <Container>6</Container>;
 };
-
-export default GameTable6Users;
 
 const Container = styled(Box)`
   border: 1px solid red;

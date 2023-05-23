@@ -14,9 +14,9 @@ type CustomProps = {
 };
 
 const NumericFormatCustom = forwardRef<PatternFormatProps, CustomProps>(
-  function NumericFormatCustom(props, ref) {
-    return <PatternFormat getInputRef={ref} format="######" {...props} />;
-  },
+  (props, ref) => (
+    <PatternFormat getInputRef={ref} format="######" {...props} />
+  ),
 );
 
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
   afterJoin: (gameId: number) => void;
 };
 
-const JoinForm = ({
+export const JoinForm = ({
   defaultValues,
   disabledGameId,
   disableJoinCode,
@@ -102,5 +102,3 @@ const StyledTextField = styled(TextField)`
     text-align: center;
   }
 `;
-
-export default JoinForm;

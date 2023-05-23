@@ -11,14 +11,14 @@ import { useQuery } from '@tanstack/react-query';
 import { getGameById } from '../../api/games';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { getUser } from '../../store/user';
-import { setCurrentGame } from '../../store/games';
+import { setCurrentGame } from '../../store/game';
 import { gameSocket, GAME_WS_KEYS } from '../../ws';
 
-import useGameSocket from './useGameSocket';
-import JoinView from './JoinView';
-import GameplayView from './GameplayView';
+import { useGameSocket } from './useGameSocket';
+import { JoinView } from './JoinView';
+import { GameplayView } from './GameplayView';
 
-const GamePage = () => {
+export const GamePage = () => {
   const { gameId } = useParams<{ gameId: string }>();
 
   const dispatch = useAppDispatch();
@@ -26,6 +26,7 @@ const GamePage = () => {
   const { data, isFetched, refetch } = useQuery({
     queryKey: ['getGameById', gameId!],
     queryFn: ({ queryKey }) => getGameById(queryKey[1]),
+    retry: 1,
   });
 
   useEffect(() => {
@@ -64,14 +65,12 @@ const GamePage = () => {
   }
 
   if (game.players.some(player => player.userId === user?.id)) {
-    return <GameplayView game={game} updateGame={refetch} />;
+    return <GameplayView updateGame={refetch} />;
   }
 
   return (
     <Container component="main">
-      <JoinView game={game} afterJoin={afterJoin} />
+      <JoinView afterJoin={afterJoin} />
     </Container>
   );
 };
-
-export default GamePage;

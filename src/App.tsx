@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { PageLayaut } from './components/templates/PageLayaut';
 
-import Pages from './pages';
+import { Pages } from './pages';
 
 const theme = createTheme({
   palette: {
@@ -19,7 +19,7 @@ const theme = createTheme({
 
 const queryClient = new QueryClient();
 
-function App() {
+export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
@@ -31,6 +31,4 @@ function App() {
       </ThemeProvider>
     </QueryClientProvider>
   );
-}
-
-export default App;
+};

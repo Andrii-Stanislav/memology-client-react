@@ -4,11 +4,15 @@ import type { TypedUseSelectorHook } from 'react-redux';
 import { persistReducer } from 'redux-persist';
 import { persistConfig, PERSIST_MIDDLEWARE_OPTIONS } from './persistConfig';
 
-import user from './user';
-import memes from './memes';
-import games from './games';
+import { userReducer } from './user';
+import { memesReducer } from './memes';
+import { gameReducer } from './game';
 
-const rootReducers = combineReducers({ user, memes, games });
+const rootReducers = combineReducers({
+  user: userReducer,
+  memes: memesReducer,
+  game: gameReducer,
+});
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 export const store = configureStore({

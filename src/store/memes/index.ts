@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import type { Meme } from "../../types/meme";
-import type { StoreType } from "../store";
+import type { Meme } from '../../types/meme';
+import type { StoreType } from '../store';
 
 type MemesState = {
   isLoaded: boolean;
@@ -14,7 +14,7 @@ const initialState: MemesState = {
 };
 
 export const memesSlice = createSlice({
-  name: "memes",
+  name: 'memes',
   initialState,
   reducers: {
     setAllMemes: (state, action) => {
@@ -26,7 +26,7 @@ export const memesSlice = createSlice({
 
 export const { setAllMemes } = memesSlice.actions;
 
-export default memesSlice.reducer;
+export const memesReducer = memesSlice.reducer;
 
 export const allMemesIsLoaded = (store: StoreType) => store.memes.isLoaded;
 export const allMemes = (store: StoreType) => store.memes.allMemesList;

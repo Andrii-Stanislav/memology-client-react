@@ -90,5 +90,3 @@ export const CreateForm = ({ afterCreate }: Props) => {
     </Box>
   );
 };
-
-export default CreateForm;

@@ -5,11 +5,11 @@ import { useNavigate, generatePath } from 'react-router-dom';
 import { Modal } from '../../components/shared';
 import { ROUTES } from '../../constants/routes';
 
-import CreateForm from './CreateForm';
-import JoinForm from './JoinForm';
-import GamesTable from './GamesTable';
+import { CreateForm } from './CreateForm';
+import { JoinForm } from './JoinForm';
+import { GamesTable } from './GamesTable';
 
-const Games = () => {
+export const Games = () => {
   const navigate = useNavigate();
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
@@ -70,5 +70,3 @@ const Games = () => {
     </>
   );
 };
-
-export default Games;

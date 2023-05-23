@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { setPlayerReady } from '../../store/games';
+import { setPlayerReady } from '../../store/game';
 import { useAppDispatch } from '../../store';
 
 import { gameSocket, GAME_WS_KEYS } from '../../ws';
@@ -10,7 +10,7 @@ type Props = {
   updateGame: () => void;
 };
 
-const useGameSocket = ({ gameId, updateGame }: Props) => {
+export const useGameSocket = ({ gameId, updateGame }: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const useGameSocket = ({ gameId, updateGame }: Props) => {
     };
 
     const onGameStarted = () => {
-      // TODO
+      updateGame();
     };
 
     gameSocket.on(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);
@@ -44,5 +44,3 @@ const useGameSocket = ({ gameId, updateGame }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);
 };
-
-export default useGameSocket;

@@ -1,6 +1,6 @@
-import { styled } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
-const GradientBox = styled("div")`
+export const GradientBox = styled('div')`
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   animation: gradient 15s ease infinite;
 
@@ -16,5 +16,3 @@ const GradientBox = styled("div")`
     }
   }
 `;
-
-export default GradientBox;

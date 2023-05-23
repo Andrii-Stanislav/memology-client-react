@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import { ROUTES } from '../../constants/routes';
 
-import UserHeaderBlock from './UserHeaderBlock';
+import { UserHeaderBlock } from './UserHeaderBlock';
 
 const ALLOWED_PATHS = ['/', '/games'];
 

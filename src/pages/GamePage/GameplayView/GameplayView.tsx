@@ -8,27 +8,27 @@ import {
   leavePlayerFromGame,
 } from '../../../api/players';
 import { ROUTES } from '../../../constants/routes';
-import { PLAYER_STATUS, Game } from '../../../types/game';
+import { PLAYER_STATUS } from '../../../types/game';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
-import { setPlayerReady } from '../../../store/games';
+import { setPlayerReady, getCurrentGame } from '../../../store/game';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
-import GameTable3Users from './GameTable3Users';
-import GameTable4Users from './GameTable4Users';
-import GameTable5Users from './GameTable5Users';
-import GameTable6Users from './GameTable6Users';
+import { GameTable3Users } from './GameTable3Users';
+import { GameTable4Users } from './GameTable4Users';
+import { GameTable5Users } from './GameTable5Users';
+import { GameTable6Users } from './GameTable6Users';
 
 type Props = {
-  game: Game;
   updateGame: () => void;
 };
 
-const GameplayView = ({ game, updateGame }: Props) => {
+export const GameplayView = ({ updateGame }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const user = useAppSelector(getUser);
+  const game = useAppSelector(getCurrentGame);
 
   const mainPlayer = useMemo(
     () => game.players.find(({ userId }) => userId === user?.id)!,
@@ -91,5 +91,3 @@ const GameplayView = ({ game, updateGame }: Props) => {
     </Box>
   );
 };
-
-export default GameplayView;

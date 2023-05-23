@@ -71,8 +71,6 @@ export const AurhForm = ({
   );
 };
 
-export default AurhForm;
-
 const Form = styled('form')`
   width: 100%;
   max-width: 400px;

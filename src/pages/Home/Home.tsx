@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Container,
   ImageList,
@@ -6,15 +6,15 @@ import {
   Backdrop,
   CircularProgress,
   Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-import { useAppSelector } from "../../store";
-import { allMemes, allMemesIsLoaded } from "../../store/memes";
-import { Modal, GradientBox } from "../../components/shared";
-import type { Meme } from "../../types/meme";
+import { useAppSelector } from '../../store';
+import { allMemes, allMemesIsLoaded } from '../../store/memes';
+import { Modal, GradientBox } from '../../components/shared';
+import type { Meme } from '../../types/meme';
 
-export default function Home() {
+export const Home = () => {
   const [specificMeme, setSpecificMeme] = useState<Meme | null>(null);
   const handleClose = () => setSpecificMeme(null);
 
@@ -39,7 +39,8 @@ export default function Home() {
             key={meme.id}
             cols={isLargeImage(index) ? 2 : 1}
             rows={isLargeImage(index) ? 2 : 1}
-            onClick={setSpecificMeme.bind(null, meme)}>
+            onClick={setSpecificMeme.bind(null, meme)}
+          >
             <img src={meme.image} alt={meme.title} loading="lazy" />
           </StyledImageListItem>
         ))}
@@ -48,7 +49,7 @@ export default function Home() {
       <Modal open={!!specificMeme} onClose={handleClose}>
         <GradientBox>
           <Typography variant="h5" p={2}>
-            Title: {specificMeme?.title ? specificMeme?.title : "-"}
+            Title: {specificMeme?.title ? specificMeme?.title : '-'}
           </Typography>
           <img
             width="100%"
@@ -57,14 +58,14 @@ export default function Home() {
             loading="lazy"
           />
           <Typography variant="body2" p={2}>
-            Description:{" "}
-            {specificMeme?.description ? specificMeme?.description : "-"}
+            Description:{' '}
+            {specificMeme?.description ? specificMeme?.description : '-'}
           </Typography>
         </GradientBox>
       </Modal>
     </Container>
   );
-}
+};
 
 const StyledImageListItem = styled(ImageListItem)`
   cursor: pointer;

@@ -1,4 +1,4 @@
-import api from './ApiService';
+import { api } from './ApiService';
 import { PLAYER_STATUS } from '../types/game';
 
 export const setPlayerReadyForGame = (playerId: number) =>

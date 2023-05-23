@@ -1,4 +1,4 @@
-export { default as GradientBox } from './GradientBox';
-export { default as Modal } from './Modal';
-export { default as StatusBadge } from './StatusBadge';
-export { default as PasswordTextField } from './PasswordTextField';
+export * from './GradientBox';
+export * from './Modal';
+export * from './StatusBadge';
+export * from './PasswordTextField';

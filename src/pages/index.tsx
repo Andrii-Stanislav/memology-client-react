@@ -1,27 +1,27 @@
-import React, { Suspense } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Suspense } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { ROUTES } from "../constants/routes";
-import { PublicRoute } from "../components/routes/PublicRoute";
-import { ProtectedRoute } from "../components/routes/ProtectedRoute";
+import { ROUTES } from '../constants/routes';
+import { PublicRoute } from '../components/routes/PublicRoute';
+import { ProtectedRoute } from '../components/routes/ProtectedRoute';
 
 // publicRoutes
-import Login from "./Login";
-import Register from "./Register";
+import { Login } from './Login';
+import { Register } from './Register';
 
 // protectedRoutes
-import Home from "./Home";
-import Game from "./Games";
-import GamePage from "./GamePage";
+import { Home } from './Home';
+import { Games } from './Games';
+import { GamePage } from './GamePage';
 
 const publicRoutes = [
   {
-    key: "login",
+    key: 'login',
     path: ROUTES.LOGIN,
     component: <Login />,
   },
   {
-    key: "sign-up",
+    key: 'sign-up',
     path: ROUTES.SIGN_UP,
     component: <Register />,
   },
@@ -29,23 +29,23 @@ const publicRoutes = [
 
 const protectedRoutes = [
   {
-    key: "home",
+    key: 'home',
     path: ROUTES.HOME,
     component: <Home />,
   },
   {
-    key: "games",
+    key: 'games',
     path: ROUTES.GAMES,
-    component: <Game />,
+    component: <Games />,
   },
   {
-    key: "gamesPage",
+    key: 'gamesPage',
     path: ROUTES.GAME_PAGE,
     component: <GamePage />,
   },
 ];
 
-function Pages() {
+export const Pages = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -60,7 +60,7 @@ function Pages() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route path="/" element={<PublicRoute />}>
-          {publicRoutes.map((route) => (
+          {publicRoutes.map(route => (
             <Route
               key={route.path}
               path={route.path}
@@ -72,6 +72,4 @@ function Pages() {
       </Routes>
     </Suspense>
   );
-}
-
-export default Pages;
+};

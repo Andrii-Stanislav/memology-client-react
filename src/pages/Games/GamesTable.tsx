@@ -20,7 +20,7 @@ import { getAllGames } from '../../api/games';
 import { ROUTES } from '../../constants/routes';
 import { StatusBadge } from '../../components/shared';
 
-const GamesTable = () => {
+export const GamesTable = () => {
   const { data, isFetched } = useQuery({
     queryKey: ['getAllGames'],
     queryFn: getAllGames,
@@ -103,8 +103,6 @@ const GamesTable = () => {
     </>
   );
 };
-
-export default GamesTable;
 
 const StyledCard = styled(Card)`
   background-color: transparent;

@@ -1,3 +1,3 @@
-import api from "./ApiService";
+import { api } from './ApiService';
 
-export const getAllMemes = () => api.get("/memes");
+export const getAllMemes = () => api.get('/memes');

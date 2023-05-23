@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import type { User } from "../../types/user";
-import type { StoreType } from "../store";
+import type { User } from '../../types/user';
+import type { StoreType } from '../store';
 
 const initialState = null as User | null;
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     setUser: (_, action) => action.payload,
@@ -16,6 +16,6 @@ export const userSlice = createSlice({
 
 export const { setUser, userLoggedOut } = userSlice.actions;
 
-export default userSlice.reducer;
+export const userReducer = userSlice.reducer;
 
 export const getUser = (store: StoreType) => store.user;

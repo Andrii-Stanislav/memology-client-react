@@ -8,7 +8,7 @@ type Props = {
   mainPlayer: Player;
 };
 
-const GameTable4Users = ({ players, mainPlayer }: Props) => {
+export const GameTable4Users = ({ players, mainPlayer }: Props) => {
   // console.log('mainPlayer: ', mainPlayer);
   // console.log('players: ', players);
 
@@ -35,8 +35,6 @@ const GameTable4Users = ({ players, mainPlayer }: Props) => {
     </Container>
   );
 };
-
-export default GameTable4Users;
 
 const Container = styled(Box)`
   position: relative;

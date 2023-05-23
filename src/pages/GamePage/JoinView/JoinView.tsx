@@ -1,18 +1,18 @@
 import { Stack, Typography } from '@mui/material';
 
-import { useAppSelector } from '../../store';
-import { getUser } from '../../store/user';
-import type { Game } from '../../types/game';
+import { useAppSelector } from '../../../store';
+import { getUser } from '../../../store/user';
+import { getCurrentGame } from '../../../store/game';
 
-import JoinForm from '../Games/JoinForm';
+import { JoinForm } from '../../Games/JoinForm';
 
 type Props = {
-  game: Game;
   afterJoin: () => void;
 };
 
-const JoinView = ({ game, afterJoin }: Props) => {
+export const JoinView = ({ afterJoin }: Props) => {
   const user = useAppSelector(getUser);
+  const game = useAppSelector(getCurrentGame);
 
   const isCreator = user?.id === game?.creator?.id;
 
@@ -33,5 +33,3 @@ const JoinView = ({ game, afterJoin }: Props) => {
     </Stack>
   );
 };
-
-export default JoinView;

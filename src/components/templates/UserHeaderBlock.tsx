@@ -1,6 +1,6 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent } from 'react';
 
-import { Logout, Person } from "@mui/icons-material";
+import { Logout, Person } from '@mui/icons-material';
 import {
   Avatar,
   IconButton,
@@ -9,13 +9,13 @@ import {
   MenuItem,
   Divider,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import useAuth from "../../api/hooks/useAuth";
-import { useAppSelector } from "../../store";
-import { getUser } from "../../store/user";
+import { useAuth } from '../../api/hooks/useAuth';
+import { useAppSelector } from '../../store';
+import { getUser } from '../../store/user';
 
-const UserHeaderBlock = () => {
+export const UserHeaderBlock = () => {
   const { signOut } = useAuth();
   const user = useAppSelector(getUser);
 
@@ -53,5 +53,3 @@ const UserHeaderBlock = () => {
     </>
   );
 };
-
-export default UserHeaderBlock;

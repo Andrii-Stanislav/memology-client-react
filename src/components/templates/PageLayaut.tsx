@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
-import useAuth from '../../api/hooks/useAuth';
+import { useAuth } from '../../api/hooks/useAuth';
 import { GradientBox } from '../shared';
 import { PageHeader } from './PageHeader';
 import { BackgroundAudio } from './BackgroundAudio';

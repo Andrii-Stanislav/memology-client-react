@@ -3,15 +3,15 @@ import {
   AxiosError,
   AxiosInstance,
   AxiosResponse,
-} from "axios";
+} from 'axios';
 
 import {
   ACCESS_TOKEN_KEY,
   REQUEST_HEADER_AUTH_KEY,
-} from "../constants/localStorage";
+} from '../constants/localStorage';
 
 const onRequest = (
-  config: InternalAxiosRequestConfig
+  config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
@@ -34,10 +34,10 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
   return Promise.reject(error);
 };
 
-export function setupInterceptorsTo(
-  axiosInstance: AxiosInstance
-): AxiosInstance {
+export const setupInterceptorsTo = (
+  axiosInstance: AxiosInstance,
+): AxiosInstance => {
   axiosInstance.interceptors.request.use(onRequest, onRequestError);
   axiosInstance.interceptors.response.use(onResponse, onResponseError);
   return axiosInstance;
-}
+};

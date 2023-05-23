@@ -12,7 +12,7 @@ type Props = {
   status: GAME_STATUS;
 };
 
-const StatusBadge = ({ status }: Props) => {
+export const StatusBadge = ({ status }: Props) => {
   const title =
     status === GAME_STATUS.NOT_STARTED
       ? 'Not started'
@@ -32,5 +32,3 @@ const StatusBadge = ({ status }: Props) => {
     </Tooltip>
   );
 };
-
-export default StatusBadge;

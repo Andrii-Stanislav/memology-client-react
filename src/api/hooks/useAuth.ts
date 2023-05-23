@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { ACCESS_TOKEN_KEY } from "../../constants/localStorage";
-import { LoginData } from "../../types/auth";
+import { ACCESS_TOKEN_KEY } from '../../constants/localStorage';
+import { LoginData } from '../../types/auth';
 
-import { loginReq, registerReq } from "../auth";
-import { setUser, userLoggedOut } from "../../store/user";
-import { useAppDispatch } from "../../store";
+import { loginReq, registerReq } from '../auth';
+import { setUser, userLoggedOut } from '../../store/user';
+import { useAppDispatch } from '../../store';
 
-const useAuth = () => {
+export const useAuth = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -18,9 +18,9 @@ const useAuth = () => {
       const { data } = await loginReq(loginData);
       dispatch(setUser(data.user));
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.log("error: ", error);
+      console.log('error: ', error);
     }
   };
 
@@ -29,19 +29,17 @@ const useAuth = () => {
       const { data } = await registerReq(loginData);
       dispatch(setUser(data.user));
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.log("error: ", error);
+      console.log('error: ', error);
     }
   };
 
   const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     dispatch(userLoggedOut());
-    navigate("/login");
+    navigate('/login');
   };
 
   return { isAuth, signIn, signUp, signOut };
 };
-
-export default useAuth;
