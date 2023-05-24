@@ -1,21 +1,18 @@
-import { Typography, Paper } from '@mui/material';
+import { Typography, TypographyProps, Paper } from '@mui/material';
 import { styled } from '@mui/material';
 
 type Props = {
   text: string[];
+  colors: string[];
 };
 
-export const SituationCard = ({ text }: Props) => {
+export const SituationCard = ({ text, colors }: Props) => {
   return (
     <Situatios>
       {text.map((textItem, index) => (
-        <div key={textItem}>
-          {index % 2 === 0 ? (
-            <FirstTextItem>{textItem}</FirstTextItem>
-          ) : (
-            <SecondTextItem>{textItem}</SecondTextItem>
-          )}
-        </div>
+        <TextItem key={textItem} color={colors[index % 2]}>
+          {textItem}
+        </TextItem>
       ))}
     </Situatios>
   );
@@ -28,29 +25,19 @@ const Situatios = styled(Paper)`
   padding: 10px;
 `;
 
-const getRandomColor = () => {
-  const COLORS = {
-    1: '#fb8383',
-    2: '#ffe485',
-    3: '#e6adad',
-    4: '#f9c59d',
-    5: '#e1fb83',
-    6: '#83fbc7',
-    7: '#83bdfb',
-    8: '#a983fb',
-    9: '#fb83ef',
-  } as { [key: number]: string };
+interface TextItemProps extends TypographyProps {
+  color: string;
+}
 
-  return COLORS?.[Math.floor(Math.random() * 10)];
-};
-
-const FirstTextItem = styled(Typography)`
+const TextItem = styled(({ color, ...props }: TextItemProps) => (
+  <Typography {...props} />
+))`
   font-weight: 600;
-  background-color: ${getRandomColor()};
-`;
+  background-color: ${({ color }) => color};
+  padding: 5px;
+  border-radius: 4px;
 
-const SecondTextItem = styled(Typography)`
-  font-weight: 600;
-  background-color: ${getRandomColor()};
-  margin-top: 20px;
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
 `;

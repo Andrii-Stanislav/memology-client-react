@@ -40,7 +40,10 @@ export const SituationControl = ({
 
       {currentDeal?.status === DEAL_STATUS.STARTED && (
         <SituatiosBox>
-          <SituationCard text={currentSituations?.text ?? []} />
+          <SituationCard
+            text={currentSituations?.text!}
+            colors={currentSituations?.colors!}
+          />
         </SituatiosBox>
       )}
     </>

@@ -19,6 +19,12 @@ export const PageHeader = () => {
         <NavLink to={ROUTES.HOME}>
           <Button sx={getButtonSx(ROUTES.HOME)}>/ Home</Button>
         </NavLink>
+        <NavLink to={ROUTES.MEMES}>
+          <Button sx={getButtonSx(ROUTES.MEMES)}>/ Memes</Button>
+        </NavLink>
+        <NavLink to={ROUTES.SITUATIONS}>
+          <Button sx={getButtonSx(ROUTES.SITUATIONS)}>/ Situations</Button>
+        </NavLink>
         <NavLink to={ROUTES.GAMES}>
           <Button sx={getButtonSx(ROUTES.GAMES)}>/ Games</Button>
         </NavLink>

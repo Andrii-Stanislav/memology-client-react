@@ -29,5 +29,8 @@ export const { setAllSituations } = situationsSlice.actions;
 
 export const situationsReducer = situationsSlice.reducer;
 
+export const allSituationsIsLoaded = (store: StoreType) =>
+  store.situations.isLoaded;
+
 export const getAllSituations = (store: StoreType) =>
   store.situations.allSituationsList;

@@ -11,6 +11,8 @@ import { Register } from './Register';
 
 // protectedRoutes
 import { Home } from './Home';
+import { Memes } from './Memes';
+import { Situations } from './Situations';
 import { Games } from './Games';
 import { GamePage } from './GamePage';
 
@@ -32,6 +34,16 @@ const protectedRoutes = [
     key: 'home',
     path: ROUTES.HOME,
     component: <Home />,
+  },
+  {
+    key: 'memes',
+    path: ROUTES.MEMES,
+    component: <Memes />,
+  },
+  {
+    key: 'situations',
+    path: ROUTES.SITUATIONS,
+    component: <Situations />,
   },
   {
     key: 'games',

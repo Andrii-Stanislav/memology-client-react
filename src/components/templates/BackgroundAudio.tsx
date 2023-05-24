@@ -75,7 +75,7 @@ export const BackgroundAudio = () => {
     <>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
-        sx={{ position: 'absolute', bottom: 8, left: 8 }}
+        sx={{ position: 'fixed', bottom: 8, left: 8 }}
         icon={<SpeedDialIcon icon={<Audiotrack />} openIcon={<Close />} />}
       >
         <SpeedDialAction

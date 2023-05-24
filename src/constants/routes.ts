@@ -1,8 +1,10 @@
 export enum ROUTES {
-  LOGIN = "/login",
-  SIGN_UP = "/sign-up",
+  LOGIN = '/login',
+  SIGN_UP = '/sign-up',
   //
-  HOME = "/",
-  GAMES = "/games",
-  GAME_PAGE = "/games/:gameId",
+  HOME = '/',
+  GAMES = '/games',
+  MEMES = '/memes',
+  SITUATIONS = '/situations',
+  GAME_PAGE = '/games/:gameId',
 }
