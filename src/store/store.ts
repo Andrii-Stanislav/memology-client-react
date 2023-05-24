@@ -6,11 +6,13 @@ import { persistReducer } from 'redux-persist';
 import { persistConfig, PERSIST_MIDDLEWARE_OPTIONS } from './persistConfig';
 import { userReducer } from './user';
 import { memesReducer } from './memes';
+import { situationsReducer } from './situations';
 import { gameReducer } from './game';
 
 const rootReducers = combineReducers({
   user: userReducer,
   memes: memesReducer,
+  situations: situationsReducer,
   game: gameReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducers);

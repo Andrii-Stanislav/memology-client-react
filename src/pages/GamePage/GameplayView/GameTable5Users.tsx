@@ -7,7 +7,7 @@ import { PlayerEl, PlayerInnerBox, PlayerName } from './PlayerElements';
 
 import type { GameTableProps } from './types';
 
-export const GameTable5Users = ({ players }: GameTableProps) => {
+export const GameTable5Users = ({ players, currentDeal }: GameTableProps) => {
   const playersElements = useMemo(
     () => [FirstUser, SecondUser, ThirdUser, FourthUser],
     [],
@@ -18,7 +18,11 @@ export const GameTable5Users = ({ players }: GameTableProps) => {
       {players.slice(0, 4).map((player, index) => {
         const PlayerElement = playersElements[index];
         return (
-          <PlayerElement isReady={player.status === PLAYER_STATUS.READY}>
+          <PlayerElement
+            key={player.id}
+            isReady={player.status === PLAYER_STATUS.READY}
+            isJudge={player.userId === currentDeal?.judgeId}
+          >
             <PlayerInnerBox>
               <PlayerName>{player.name}</PlayerName>
             </PlayerInnerBox>

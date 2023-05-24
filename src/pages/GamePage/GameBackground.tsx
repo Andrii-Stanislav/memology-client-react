@@ -7,7 +7,9 @@ import {
   RunningLineRight,
   GameTypography,
 } from 'components/shared';
-import { Game, GAME_STATUS } from 'types/game';
+import { Game } from 'types/game';
+
+import { useSecondRunningLineText } from './hooks';
 
 type Props = {
   game: Game;
@@ -15,7 +17,7 @@ type Props = {
 };
 
 export const GameBackground = ({ game, children }: Props) => {
-  // game.status === GAME_STATUS.NOT_STARTED
+  const secondRunningLineText = useSecondRunningLineText();
 
   return (
     <Background>
@@ -31,14 +33,13 @@ export const GameBackground = ({ game, children }: Props) => {
             gap={2}
             width="100%"
           >
-            {game.status === GAME_STATUS.NOT_STARTED && (
-              <>
-                <InfoTypography>Whaiting for all users</InfoTypography>
-                <InfoTypography>Whaiting for all users</InfoTypography>
-                <InfoTypography>Whaiting for all users</InfoTypography>
-                <InfoTypography>Whaiting for all users</InfoTypography>
-              </>
-            )}
+            <>
+              {Array(4)
+                .fill(secondRunningLineText)
+                .map((text, index) => (
+                  <InfoTypography key={index}>{text}</InfoTypography>
+                ))}
+            </>
           </Box>
         </RunningLineRight>
       </RunningLineBox>

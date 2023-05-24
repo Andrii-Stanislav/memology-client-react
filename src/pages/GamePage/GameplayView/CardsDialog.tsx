@@ -1,11 +1,13 @@
 import { ReactElement, useState, forwardRef } from 'react';
-import { Dialog, Tooltip, Box, Slide, Button } from '@mui/material';
+import { Dialog, Tooltip, Box, BoxProps, Slide, Button } from '@mui/material';
 import { styled } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 
 import { Modal, GradientBox } from 'components/shared';
+import { useAppSelector } from 'store';
+import { getCanSelectCard } from 'store/game';
 import { Meme } from 'types/meme';
 
 interface TProps extends TransitionProps {
@@ -23,11 +25,17 @@ type Props = {
 };
 
 export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
+  const canSelectCard = useAppSelector(getCanSelectCard);
+
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null);
 
   const handleClickOpen = () => setOpenDialog(true);
   const handleClose = () => setOpenDialog(false);
+
+  const openFullScreanModal = (meme: Meme) => {
+    if (canSelectCard) setSelectedMeme(meme);
+  };
 
   const putCardOnTable = (card: Meme) => {
     onChooseCard(card);
@@ -58,7 +66,10 @@ export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
           >
             {cards.map(card => (
               <StyledSwiperSlide key={card.id}>
-                <ImageBox onClick={setSelectedMeme.bind(null, card)}>
+                <ImageBox
+                  onClick={openFullScreanModal.bind(null, card)}
+                  disabled={!canSelectCard}
+                >
                   <Image src={card.image} alt={card.title} />
                 </ImageBox>
               </StyledSwiperSlide>
@@ -75,10 +86,10 @@ export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
                 alt={selectedMeme?.title}
                 loading="lazy"
               />
-              <Box pt={2}>
+              <Box p={2} display="flex" justifyContent="center">
                 <Button
-                  fullWidth
                   size="large"
+                  variant="contained"
                   onClick={putCardOnTable.bind(null, selectedMeme!)}
                 >
                   Select
@@ -131,7 +142,13 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   align-items: center;
 `;
 
-const ImageBox = styled(Box)`
+interface ImageBoxProps extends BoxProps {
+  disabled: boolean;
+}
+
+const ImageBox = styled(({ disabled, ...props }: ImageBoxProps) => (
+  <Box {...props} />
+))`
   object-fit: cover;
   cursor: pointer;
   max-height: 100%;
@@ -139,8 +156,9 @@ const ImageBox = styled(Box)`
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
+
   &:hover {
-    transform: scale(0.95);
+    transform: ${({ disabled }) => !disabled && 'scale(0.95)'};
   }
 `;
 

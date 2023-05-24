@@ -6,3 +6,4 @@ export * from './ConfirmDialog';
 export * from './RunningLineLeft';
 export * from './RunningLineRight';
 export * from './GameTypography';
+export * from './SituationCard';

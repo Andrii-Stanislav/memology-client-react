@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Game, PLAYER_STATUS, DEAL_STATUS } from 'types/game';
 
-import type { StoreType } from '../store';
 import { initialState } from './initialState';
 
 export const gameSlice = createSlice({
@@ -23,6 +22,13 @@ export const gameSlice = createSlice({
           : player,
       );
     },
+    setCurrentDealStarted: state => {
+      state.deals = state.deals.map(deal =>
+        deal.id === state.currentDealId
+          ? { ...deal, status: DEAL_STATUS.STARTED }
+          : deal,
+      );
+    },
   },
 });
 
@@ -31,19 +37,9 @@ export const {
   cleaCurrentGame,
   removePlayerFromGame,
   setPlayerReady,
+  setCurrentDealStarted,
 } = gameSlice.actions;
 
 export const gameReducer = gameSlice.reducer;
 
-// * selectors
-
-export const hasNoGame = (store: StoreType) => store.game.id === 0;
-export const getCurrentGame = (store: StoreType) => store.game;
-
-export const getCurrentDeal = (store: StoreType) =>
-  store.game.deals.find(({ id }) => id === store.game.currentDealId) ?? null;
-
-export const getCanSelectCard = createSelector(
-  getCurrentDeal,
-  deal => deal?.status === DEAL_STATUS.STARTED,
-);
+export * from './selectors';
