@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
-import { setPlayerReady } from '../../store/game';
-import { useAppDispatch } from '../../store';
-
-import { gameSocket, GAME_WS_KEYS } from '../../ws';
+import { useAppDispatch } from 'store';
+import { removePlayerFromGame, setPlayerReady } from 'store/game';
+import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
 type Props = {
   gameId?: string;
@@ -19,7 +18,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
     };
 
     const onPlayerLeave = (args: { userId: number }) => {
-      updateGame();
+      dispatch(removePlayerFromGame(args.userId));
     };
 
     const onPlayerReady = (args: { userId: number }) => {

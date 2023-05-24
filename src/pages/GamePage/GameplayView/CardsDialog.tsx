@@ -5,8 +5,8 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 
-import { Modal, GradientBox } from '../../../components/shared';
-import { Meme } from '../../../types/meme';
+import { Modal, GradientBox } from 'components/shared';
+import { Meme } from 'types/meme';
 
 interface TProps extends TransitionProps {
   children: ReactElement;

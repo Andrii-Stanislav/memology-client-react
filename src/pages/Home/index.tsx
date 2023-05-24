@@ -9,10 +9,10 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { useAppSelector } from '../../store';
-import { getAllMemes, allMemesIsLoaded } from '../../store/memes';
-import { Modal, GradientBox } from '../../components/shared';
-import type { Meme } from '../../types/meme';
+import { Modal, GradientBox } from 'components/shared';
+import { useAppSelector } from 'store';
+import { getAllMemes, allMemesIsLoaded } from 'store/memes';
+import type { Meme } from 'types/meme';
 
 export const Home = () => {
   const [specificMeme, setSpecificMeme] = useState<Meme | null>(null);

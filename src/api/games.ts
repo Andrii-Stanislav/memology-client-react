@@ -1,5 +1,6 @@
+import type { Game, Player, CreateGameData, JoinGameData } from 'types/game';
+
 import { api } from './ApiService';
-import type { Game, Player, CreateGameData, JoinGameData } from '../types/game';
 
 export const getAllGames = () => api.get<Game[]>('/games');
 

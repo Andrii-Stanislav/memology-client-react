@@ -11,9 +11,9 @@ import {
   Typography,
 } from '@mui/material';
 
-import { useAuth } from '../../api/hooks/useAuth';
-import { useAppSelector } from '../../store';
-import { getUser } from '../../store/user';
+import { useAuth } from 'api/hooks/useAuth';
+import { useAppSelector } from 'store';
+import { getUser } from 'store/user';
 
 export const UserHeaderBlock = () => {
   const { signOut } = useAuth();

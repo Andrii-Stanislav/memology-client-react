@@ -1,10 +1,9 @@
 import { Stack, Typography } from '@mui/material';
 
-import { useAppSelector } from '../../../store';
-import { getUser } from '../../../store/user';
-import { hasNoGame, getCurrentGame } from '../../../store/game';
-
-import { JoinForm } from '../../Games/JoinForm';
+import { useAppSelector } from 'store';
+import { getUser } from 'store/user';
+import { hasNoGame, getCurrentGame } from 'store/game';
+import { JoinForm } from 'pages/Games/JoinForm';
 
 type Props = {
   afterJoin: () => void;

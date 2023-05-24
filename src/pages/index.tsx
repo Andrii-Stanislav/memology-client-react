@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { ROUTES } from '../constants/routes';
-import { PublicRoute } from '../components/routes/PublicRoute';
-import { ProtectedRoute } from '../components/routes/ProtectedRoute';
+import { ROUTES } from 'constants/routes';
+import { PublicRoute } from 'components/routes/PublicRoute';
+import { ProtectedRoute } from 'components/routes/ProtectedRoute';
 
 // publicRoutes
 import { Login } from './Login';

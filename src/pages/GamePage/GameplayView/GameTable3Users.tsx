@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { useMemo } from 'react';
-import { PLAYER_STATUS } from '../../../types/game';
+
+import { PLAYER_STATUS } from 'types/game';
 
 import { PlayerEl, PlayerInnerBox, PlayerName } from './PlayerElements';
 import type { GameTableProps } from './types';

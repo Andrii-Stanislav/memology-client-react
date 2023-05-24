@@ -2,8 +2,8 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { persistReducer } from 'redux-persist';
-import { persistConfig, PERSIST_MIDDLEWARE_OPTIONS } from './persistConfig';
 
+import { persistConfig, PERSIST_MIDDLEWARE_OPTIONS } from './persistConfig';
 import { userReducer } from './user';
 import { memesReducer } from './memes';
 import { gameReducer } from './game';

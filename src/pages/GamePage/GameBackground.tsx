@@ -6,9 +6,8 @@ import {
   RunningLineLeft,
   RunningLineRight,
   GameTypography,
-} from '../../components/shared';
-
-import { Game, GAME_STATUS } from '../../types/game';
+} from 'components/shared';
+import { Game, GAME_STATUS } from 'types/game';
 
 type Props = {
   game: Game;

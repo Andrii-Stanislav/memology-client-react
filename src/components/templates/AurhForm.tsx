@@ -11,7 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import { LoginData } from '../../types/auth';
+import { LoginData } from 'types/auth';
+
 import { PasswordTextField } from '../shared';
 
 type Props = {

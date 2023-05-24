@@ -1,5 +1,6 @@
+import { LoginData } from 'types/auth';
+
 import { api } from './ApiService';
-import { LoginData } from '../types/auth';
 
 export const loginReq = (body: LoginData) => api.post('/auth/login', body);
 

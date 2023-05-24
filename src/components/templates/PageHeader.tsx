@@ -3,21 +3,15 @@ import { Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 
-import { ROUTES } from '../../constants/routes';
+import { ROUTES } from 'constants/routes';
 
 import { UserHeaderBlock } from './UserHeaderBlock';
-
-const ALLOWED_PATHS = ['/', '/games'];
 
 export const PageHeader = () => {
   const { pathname } = useLocation();
 
   const getButtonSx = (path: string) =>
     pathname === path ? { textDecoration: 'underline' } : {};
-
-  if (!ALLOWED_PATHS.includes(pathname)) {
-    return null;
-  }
 
   return (
     <Header component="header">

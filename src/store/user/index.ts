@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { User } from '../../types/user';
+import type { User } from 'types/user';
+
 import type { StoreType } from '../store';
 
 const initialState = null as User | null;

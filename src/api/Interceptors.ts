@@ -6,7 +6,7 @@ import {
 } from 'axios';
 import { toast } from 'react-toastify';
 
-import { ACCESS_TOKEN_KEY } from '../constants/localStorage';
+import { ACCESS_TOKEN_KEY } from 'constants/localStorage';
 
 const onRequest = (
   config: InternalAxiosRequestConfig,

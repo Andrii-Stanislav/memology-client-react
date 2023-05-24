@@ -9,11 +9,11 @@ import {
   Close,
 } from '@mui/icons-material';
 
-import sound from '../../assets/sounds/fluffing_a_duck.mp3';
+import sound from 'assets/sounds/fluffing_a_duck.mp3';
 import {
   BACKGORUND_MUSIC_PAUSE,
   BACKGORUND_MUSIC_VOLUME,
-} from '../../constants/localStorage';
+} from 'constants/localStorage';
 
 export const BackgroundAudio = () => {
   const initIsPaused = 'true' === localStorage.getItem(BACKGORUND_MUSIC_PAUSE);

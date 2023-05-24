@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-import { getAllMemes } from '../../api/memes';
-import { useAuth } from '../../api/hooks/useAuth';
-import { ACCESS_TOKEN_KEY } from '../../constants/localStorage';
-import { useAppDispatch } from '../../store';
-import { setAllMemes } from '../../store/memes';
-import { gameSocket } from '../../ws';
+import { getAllMemes } from 'api/memes';
+import { useAuth } from 'api/hooks/useAuth';
+import { ACCESS_TOKEN_KEY } from 'constants/localStorage';
+import { useAppDispatch } from 'store';
+import { setAllMemes } from 'store/memes';
+import { gameSocket } from 'webSocket';
 
 export const ProtectedRoute = () => {
   const dispatch = useAppDispatch();

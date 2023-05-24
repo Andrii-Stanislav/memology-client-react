@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
-import { ACCESS_TOKEN_KEY } from '../../constants/localStorage';
-import { LoginData } from '../../types/auth';
+import { ACCESS_TOKEN_KEY } from 'constants/localStorage';
+import { LoginData } from 'types/auth';
+import { useAppDispatch } from 'store';
+import { setUser, userLoggedOut } from 'store/user';
 
 import { loginReq, registerReq } from '../auth';
-import { setUser, userLoggedOut } from '../../store/user';
-import { useAppDispatch } from '../../store';
 
 export const useAuth = () => {
   const navigate = useNavigate();

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { Meme } from '../../types/meme';
+import type { Meme } from 'types/meme';
+
 import type { StoreType } from '../store';
 
 type MemesState = {

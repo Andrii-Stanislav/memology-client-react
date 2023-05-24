@@ -1,4 +1,4 @@
-import { Game, GAME_STATUS } from '../../types/game';
+import { Game, GAME_STATUS } from 'types/game';
 
 export const initialState = {
   id: 0,

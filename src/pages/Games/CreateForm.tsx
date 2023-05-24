@@ -1,8 +1,8 @@
 import { Button, Box, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-import { createGame } from '../../api/games';
-import type { CreateGameData } from '../../types/game';
+import { createGame } from 'api/games';
+import type { CreateGameData } from 'types/game';
 
 const Form = {
   defaultValues: {

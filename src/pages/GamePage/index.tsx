@@ -8,11 +8,12 @@ import {
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
-import { getGameById } from '../../api/games';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { getUser } from '../../store/user';
-import { setCurrentGame } from '../../store/game';
-import { gameSocket, GAME_WS_KEYS } from '../../ws';
+import { getGameById } from 'api/games';
+import { gameSocket, GAME_WS_KEYS } from 'webSocket';
+
+import { useAppDispatch, useAppSelector } from 'store';
+import { getUser } from 'store/user';
+import { setCurrentGame } from 'store/game';
 
 import { useGameSocket } from './useGameSocket';
 import { GameBackground } from './GameBackground';
@@ -73,10 +74,8 @@ export const GamePage = () => {
   }
 
   return (
-    <Container component="main">
-      <GameBackground game={game}>
-        <JoinView afterJoin={afterJoin} />
-      </GameBackground>
-    </Container>
+    <GameBackground game={game}>
+      <JoinView afterJoin={afterJoin} />
+    </GameBackground>
   );
 };

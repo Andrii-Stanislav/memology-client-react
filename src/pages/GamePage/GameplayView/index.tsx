@@ -2,14 +2,15 @@ import { useMemo } from 'react';
 
 import { Box, Button, Backdrop } from '@mui/material';
 
-import { setPlayerReadyForGame } from '../../../api/players';
-import { PLAYER_STATUS } from '../../../types/game';
-import { Meme } from '../../../types/meme';
-import { useAppDispatch, useAppSelector } from '../../../store';
-import { getUser } from '../../../store/user';
-import { setPlayerReady, getCurrentGame, hasNoGame } from '../../../store/game';
-import { getAllMemes } from '../../../store/memes';
-import { gameSocket, GAME_WS_KEYS } from '../../../ws';
+import { setPlayerReadyForGame } from 'api/players';
+import { PLAYER_STATUS } from 'types/game';
+import { Meme } from 'types/meme';
+import { gameSocket, GAME_WS_KEYS } from 'webSocket';
+
+import { useAppDispatch, useAppSelector } from 'store';
+import { getUser } from 'store/user';
+import { setPlayerReady, getCurrentGame, hasNoGame } from 'store/game';
+import { getAllMemes } from 'store/memes';
 
 import { LeaveGame } from './LeaveGame';
 import { CurrentUser, PlayerName } from './PlayerElements';

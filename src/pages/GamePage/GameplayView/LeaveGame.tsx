@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box, Button } from '@mui/material';
 
-import { leavePlayerFromGame } from '../../../api/players';
-import { ROUTES } from '../../../constants/routes';
-import { ConfirmDialog } from '../../../components/shared';
-import { gameSocket, GAME_WS_KEYS } from '../../../ws';
+import { leavePlayerFromGame } from 'api/players';
+import { ROUTES } from 'constants/routes';
+import { ConfirmDialog } from 'components/shared';
+import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
 type Props = {
   mainPlayerId: number;

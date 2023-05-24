@@ -16,9 +16,9 @@ import { Link, generatePath } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 
-import { getAllGames } from '../../api/games';
-import { ROUTES } from '../../constants/routes';
-import { StatusBadge } from '../../components/shared';
+import { getAllGames } from 'api/games';
+import { ROUTES } from 'constants/routes';
+import { StatusBadge } from 'components/shared';
 
 export const GamesTable = () => {
   const { data, isFetched } = useQuery({

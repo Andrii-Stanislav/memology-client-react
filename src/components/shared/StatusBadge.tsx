@@ -6,7 +6,7 @@ import {
   CheckCircle,
 } from '@mui/icons-material';
 
-import { GAME_STATUS } from '../../types/game';
+import { GAME_STATUS } from 'types/game';
 
 type Props = {
   status: GAME_STATUS;

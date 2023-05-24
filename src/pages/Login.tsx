@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Button, Container } from '@mui/material';
 
-import { useAuth } from '../api/hooks/useAuth';
-import { AurhForm } from '../components/templates/AurhForm';
+import { useAuth } from 'api/hooks/useAuth';
+import { AurhForm } from 'components/templates/AurhForm';
 
 export const Login = () => {
   const { signIn } = useAuth();

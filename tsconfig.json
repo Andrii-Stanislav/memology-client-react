@@ -19,7 +19,8 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "baseUrl": "src"
   },
   "include": ["src"]
 }

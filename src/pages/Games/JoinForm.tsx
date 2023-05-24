@@ -4,8 +4,8 @@ import { Button, Box, Stack, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 
-import { joinGame } from '../../api/games';
-import type { JoinGameData } from '../../types/game';
+import { joinGame } from 'api/games';
+import type { JoinGameData } from 'types/game';
 
 type CustomProps = {
   value: string;

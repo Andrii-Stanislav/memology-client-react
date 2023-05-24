@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Container, Stack, Button, Box } from '@mui/material';
 import { useNavigate, generatePath } from 'react-router-dom';
 
-import { Modal } from '../../components/shared';
-import { ROUTES } from '../../constants/routes';
+import { Modal } from 'components/shared';
+import { ROUTES } from 'constants/routes';
 
 import { CreateForm } from './CreateForm';
 import { JoinForm } from './JoinForm';
