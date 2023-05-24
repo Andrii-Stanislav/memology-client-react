@@ -66,7 +66,7 @@ export const GamePage = () => {
 
   if (game.players.some(player => player.userId === user?.id)) {
     return (
-      <GameBackground gameName={game.title}>
+      <GameBackground game={game}>
         <GameplayView updateGame={refetch} />;
       </GameBackground>
     );
@@ -74,7 +74,7 @@ export const GamePage = () => {
 
   return (
     <Container component="main">
-      <GameBackground gameName={game.title}>
+      <GameBackground game={game}>
         <JoinView afterJoin={afterJoin} />
       </GameBackground>
     </Container>

@@ -7,6 +7,7 @@ export enum GAME_STATUS {
 }
 
 export enum DEAL_STATUS {
+  NOT_STARTED = 'NOT_STARTED',
   STARTED = 'STARTED',
   FINISHED = 'FINISHED',
 }

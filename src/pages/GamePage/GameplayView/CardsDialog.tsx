@@ -1,10 +1,11 @@
 import { ReactElement, useState, forwardRef } from 'react';
-import { Dialog, Tooltip, Box, Slide } from '@mui/material';
+import { Dialog, Tooltip, Box, Slide, Button } from '@mui/material';
 import { styled } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 
+import { Modal, GradientBox } from '../../../components/shared';
 import { Meme } from '../../../types/meme';
 
 interface TProps extends TransitionProps {
@@ -18,14 +19,21 @@ const Transition = forwardRef((props: TProps, ref: React.Ref<unknown>) => (
 type Props = {
   children: ReactElement;
   cards: Meme[];
+  onChooseCard: (card: Meme) => void;
 };
 
-export const CardsDialog = ({ children, cards }: Props) => {
-  const [open, setOpen] = useState(false);
+export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null);
 
-  const handleClickOpen = () => setOpen(true);
+  const handleClickOpen = () => setOpenDialog(true);
+  const handleClose = () => setOpenDialog(false);
 
-  const handleClose = () => setOpen(false);
+  const putCardOnTable = (card: Meme) => {
+    onChooseCard(card);
+    setSelectedMeme(null);
+    handleClose();
+  };
 
   return (
     <>
@@ -35,26 +43,50 @@ export const CardsDialog = ({ children, cards }: Props) => {
 
       <StyledDialog
         fullWidth
-        open={open}
+        open={openDialog}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <StyledSwiper
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination, Navigation]}
-        >
-          {cards.map(card => (
-            <StyledSwiperSlide key={card.id}>
-              <ImageBox>
-                <Image src={card.image} alt={card.title} />
-              </ImageBox>
-            </StyledSwiperSlide>
-          ))}
-        </StyledSwiper>
+        <>
+          <StyledSwiper
+            slidesPerView={3}
+            spaceBetween={30}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Pagination, Navigation]}
+          >
+            {cards.map(card => (
+              <StyledSwiperSlide key={card.id}>
+                <ImageBox onClick={setSelectedMeme.bind(null, card)}>
+                  <Image src={card.image} alt={card.title} />
+                </ImageBox>
+              </StyledSwiperSlide>
+            ))}
+          </StyledSwiper>
+
+          <Modal
+            open={!!selectedMeme}
+            onClose={setSelectedMeme.bind(null, null)}
+          >
+            <GradientBox>
+              <Image
+                src={selectedMeme?.image}
+                alt={selectedMeme?.title}
+                loading="lazy"
+              />
+              <Box pt={2}>
+                <Button
+                  fullWidth
+                  size="large"
+                  onClick={putCardOnTable.bind(null, selectedMeme!)}
+                >
+                  Select
+                </Button>
+              </Box>
+            </GradientBox>
+          </Modal>
+        </>
       </StyledDialog>
     </>
   );
@@ -93,16 +125,26 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 30vw;
   height: 30vw;
+  min-height: 30vw;
+  display: flex;
+  align-items: center;
 `;
 
 const ImageBox = styled(Box)`
   object-fit: cover;
   cursor: pointer;
+  max-height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(0.95);
+  }
 `;
 
 const Image = styled('img')`
   width: 100%;
-  height: 100%;
+  vertical-align: bottom;
 `;

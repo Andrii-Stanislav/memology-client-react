@@ -7,7 +7,7 @@ type Props = {
   height?: string;
 };
 
-export const RunningLine = ({ children, height = '65px' }: Props) => {
+export const RunningLineRight = ({ children, height = '65px' }: Props) => {
   return (
     <Wraper height={height}>
       <InnerWraper height={height}>
@@ -43,11 +43,11 @@ const FirstTickerWrapper = styled(Box)`
   position: absolute;
   top: 0;
   right: 0;
-  animation: ticker 30s infinite linear forwards;
+  animation: tickerRight 30s infinite linear forwards;
 
-  @keyframes ticker {
+  @keyframes tickerRight {
     0% {
-      transform: translate(100%, 0);
+      transform: translate(-100%, 0);
     }
 
     50% {
@@ -55,11 +55,12 @@ const FirstTickerWrapper = styled(Box)`
     }
 
     100% {
-      transform: translate(-100%, 0);
+      transform: translate(100%, 0);
     }
   }
 `;
 
 const SecondFirstTickerWrapper = styled(FirstTickerWrapper)`
-  animation: 30s ticker 15s infinite linear forwards;
+  transform: translate(-100%, 0);
+  animation: 30s tickerRight 15s infinite linear forwards;
 `;

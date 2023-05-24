@@ -1,70 +1,35 @@
-import { Paper, PaperProps, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
+import { useMemo } from 'react';
 import { PLAYER_STATUS } from '../../../types/game';
 
+import { PlayerEl, PlayerInnerBox, PlayerName } from './PlayerElements';
 import type { GameTableProps } from './types';
-import { CardsDialog } from './CardsDialog';
 
-export const GameTable3Users = ({
-  players,
-  mainPlayer,
-  cards,
-}: GameTableProps) => {
+export const GameTable3Users = ({ players }: GameTableProps) => {
+  const playersElements = useMemo(() => [FirstUser, SecondUser], []);
+
   return (
     <>
-      <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>
-        <CardsDialog cards={cards}>
-          <PlayerName>{mainPlayer?.name}</PlayerName>
-        </CardsDialog>
-      </CurrentUser>
-      {players[0] && (
-        <FirstUser isReady={players[0].status === PLAYER_STATUS.READY}>
-          <PlayerName>{players[0].name}</PlayerName>
-        </FirstUser>
-      )}
-      {players[1] && (
-        <SecondUser isReady={players[0].status === PLAYER_STATUS.READY}>
-          <PlayerName>{players[1].name}</PlayerName>
-        </SecondUser>
-      )}
+      {players.slice(0, 2).map((player, index) => {
+        const PlayerElement = playersElements[index];
+        return (
+          <PlayerElement isReady={player.status === PLAYER_STATUS.READY}>
+            <PlayerInnerBox>
+              <PlayerName>{player.name}</PlayerName>
+            </PlayerInnerBox>
+          </PlayerElement>
+        );
+      })}
     </>
   );
 };
 
-interface PlayerElProps extends PaperProps {
-  isReady: boolean;
-}
-
-const PlayerEl = styled(({ isReady, ...props }: PlayerElProps) => (
-  <Paper elevation={6} {...props} />
-))`
-  position: absolute;
-  width: 200px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: ${({ isReady }) => (isReady ? 'transparent' : 'gray')};
-  overflow: hidden;
-`;
-
-const CurrentUser = styled(PlayerEl)`
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const FirstUser = styled(PlayerEl)`
   bottom: 50%;
-  left: 0;
-  transform: translateY(50%);
+  left: 10px;
 `;
 
 const SecondUser = styled(PlayerEl)`
   bottom: 50%;
-  right: 0;
-  transform: translateY(50%);
-`;
-
-const PlayerName = styled(Typography)`
-  text-transform: uppercase;
+  right: 10px;
 `;

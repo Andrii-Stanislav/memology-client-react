@@ -4,18 +4,17 @@ import { Box, Button, Backdrop } from '@mui/material';
 
 import { setPlayerReadyForGame } from '../../../api/players';
 import { PLAYER_STATUS } from '../../../types/game';
+import { Meme } from '../../../types/meme';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { getUser } from '../../../store/user';
 import { setPlayerReady, getCurrentGame, hasNoGame } from '../../../store/game';
 import { getAllMemes } from '../../../store/memes';
 import { gameSocket, GAME_WS_KEYS } from '../../../ws';
 
-import { GameTable3Users } from './GameTable3Users';
-import { GameTable4Users } from './GameTable4Users';
-import { GameTable5Users } from './GameTable5Users';
-import { GameTable6Users } from './GameTable6Users';
-import { GameTableUnsaported } from './GameTableUnsaported';
 import { LeaveGame } from './LeaveGame';
+import { CurrentUser, PlayerName } from './PlayerElements';
+import { CardsDialog } from './CardsDialog';
+import { GameTable } from './GameTable';
 
 type Props = {
   updateGame: () => void;
@@ -39,20 +38,6 @@ export const GameplayView = ({ updateGame }: Props) => {
     [game, user?.id],
   );
 
-  const GameTable = useMemo(
-    () =>
-      game?.playersCount === 3
-        ? GameTable3Users
-        : game?.playersCount === 4
-        ? GameTable4Users
-        : game?.playersCount === 5
-        ? GameTable5Users
-        : game?.playersCount === 6
-        ? GameTable6Users
-        : GameTableUnsaported,
-    [game?.playersCount],
-  );
-
   if (noGame || !mainPlayer) {
     return null;
   }
@@ -69,9 +54,19 @@ export const GameplayView = ({ updateGame }: Props) => {
     });
   };
 
+  const onChooseCard = (card: Meme) => {
+    // TODO
+  };
+
   return (
     <Box height="100%" p={2} position="relative">
-      <GameTable players={players} mainPlayer={mainPlayer} cards={cards} />
+      <GameTable players={players} playersCount={game.playersCount} />
+
+      <CurrentUser isReady={mainPlayer?.status === PLAYER_STATUS.READY}>
+        <CardsDialog cards={cards} onChooseCard={onChooseCard}>
+          <PlayerName>{mainPlayer?.name}</PlayerName>
+        </CardsDialog>
+      </CurrentUser>
 
       <LeaveGame
         mainPlayerId={mainPlayer.id}

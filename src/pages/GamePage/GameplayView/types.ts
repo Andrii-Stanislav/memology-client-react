@@ -1,8 +1,6 @@
 import { Player } from '../../../types/game';
-import { Meme } from '../../../types/meme';
 
 export type GameTableProps = {
+  playersCount: number;
   players: Player[];
-  mainPlayer: Player;
-  cards: Meme[];
 };
