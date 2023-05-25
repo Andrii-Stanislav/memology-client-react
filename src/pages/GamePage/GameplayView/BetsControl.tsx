@@ -32,7 +32,7 @@ type Props = {
   isJudge: boolean;
   currentDeal: Deal | null;
   onSelectViner: (dealId: number, userId: number) => void;
-  goToNextDeal: () => void;
+  goToNextDeal: (vinerId: number) => void;
 };
 
 type ModalType = {
@@ -82,7 +82,10 @@ export const BetsControl = ({
             Vinner : {dealViner?.name}
           </Typography>
           {isJudge && (
-            <Button variant="contained" onClick={goToNextDeal}>
+            <Button
+              variant="contained"
+              onClick={goToNextDeal.bind(null, dealViner?.userId!)}
+            >
               Go to next deal
             </Button>
           )}

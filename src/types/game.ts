@@ -80,3 +80,7 @@ export type CreateBet = {
   dealId: number;
   cardId: number;
 };
+
+export type CreateDealType = {
+  judgeId: number;
+};

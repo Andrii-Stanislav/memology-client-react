@@ -19,7 +19,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const onPlayerJoin = (args: { userId: number }) => {
+    const onPlayerJoin = () => {
       updateGame();
     };
 
@@ -35,7 +35,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       updateGame();
     };
 
-    const onDealStarted = (args: { gameId: number; dealId: number }) => {
+    const onDealStarted = () => {
       dispatch(setCurrentDealStarted());
     };
 
@@ -43,7 +43,11 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       dispatch(addNewBet(newBet));
     };
 
-    const onDealFinished = (args: { gameId: number; dealId: number }) => {
+    const onDealFinished = () => {
+      updateGame();
+    };
+
+    const onNewDeal = () => {
       updateGame();
     };
 
@@ -54,6 +58,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
     gameSocket.on(`${GAME_WS_KEYS.DEAL_STARTED}/${gameId}`, onDealStarted);
     gameSocket.on(`${GAME_WS_KEYS.CREATE_BET}/${gameId}`, onBetCreate);
     gameSocket.on(`${GAME_WS_KEYS.DEAL_FINISHED}/${gameId}`, onDealFinished);
+    gameSocket.on(`${GAME_WS_KEYS.CREATE_NEW_DEAL}/${gameId}`, onNewDeal);
 
     return () => {
       gameSocket.off(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);
@@ -63,6 +68,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       gameSocket.off(`${GAME_WS_KEYS.DEAL_STARTED}/${gameId}`, onDealStarted);
       gameSocket.off(`${GAME_WS_KEYS.CREATE_BET}/${gameId}`, onBetCreate);
       gameSocket.off(`${GAME_WS_KEYS.DEAL_FINISHED}/${gameId}`, onDealFinished);
+      gameSocket.off(`${GAME_WS_KEYS.CREATE_NEW_DEAL}/${gameId}`, onNewDeal);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

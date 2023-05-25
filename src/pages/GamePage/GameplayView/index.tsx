@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import { Box, Button, Backdrop } from '@mui/material';
 
-import { setPlayerReadyForGame } from 'api/players';
+import { createNewDeal } from 'api/games';
+import { setPlayerReadyForGame, makeBet } from 'api/players';
 import { startDeal, setDealVinner } from 'api/deals';
-import { createBet } from 'api/bets';
 import { PLAYER_STATUS } from 'types/game';
 import { Meme } from 'types/meme';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
@@ -41,6 +41,8 @@ export const GameplayView = ({ updateGame }: Props) => {
   const noGame = useAppSelector(hasNoGame);
   const currentDeal = useAppSelector(getCurrentDeal);
 
+  console.log('game: ', game);
+
   const mainPlayer = useMemo(
     () => game.players.find(({ userId }) => userId === user?.id)!,
     [user, game],
@@ -76,38 +78,40 @@ export const GameplayView = ({ updateGame }: Props) => {
     startDeal(currentDeal?.id!).then(() => {
       dispatch(setCurrentDealStarted());
       gameSocket.emit(GAME_WS_KEYS.DEAL_STARTED, {
-        gameId: currentDeal?.gameId,
+        gameId: game.id,
         dealId: currentDeal?.id,
       });
     });
   };
 
   const onChooseCard = (card: Meme) => {
-    createBet({ dealId: currentDeal?.id!, cardId: card.id })
-      .then(({ data }) => {
+    makeBet(mainPlayer.id, { dealId: currentDeal?.id!, cardId: card.id }).then(
+      ({ data }) => {
         dispatch(addNewBet(data));
         gameSocket.emit(GAME_WS_KEYS.CREATE_BET, {
-          gameId: currentDeal?.gameId,
+          gameId: game.id,
           newBet: data,
         });
-      })
-      .then(() => {
-        // TODO - remove this card from player
-      });
+        return data;
+      },
+    );
   };
 
   const onSelectViner = (dealId: number, userId: number) => {
     setDealVinner(dealId, userId).then(() => {
-      updateGame();
       gameSocket.emit(GAME_WS_KEYS.DEAL_FINISHED, {
-        gameId: currentDeal?.gameId,
+        gameId: game.id,
         dealId,
       });
+      updateGame();
     });
   };
 
-  const goToNextDeal = () => {
-    // TODO
+  const goToNextDeal = (vinerId: number) => {
+    createNewDeal(game.id, { judgeId: vinerId }).then(() => {
+      gameSocket.emit(GAME_WS_KEYS.CREATE_NEW_DEAL, { gameId: game.id });
+      updateGame();
+    });
   };
 
   return (
