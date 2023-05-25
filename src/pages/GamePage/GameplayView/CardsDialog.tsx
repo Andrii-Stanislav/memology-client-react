@@ -7,7 +7,8 @@ import { Pagination, Navigation } from 'swiper';
 
 import { Modal, GradientBox } from 'components/shared';
 import { useAppSelector } from 'store';
-import { getCanSelectCard } from 'store/game';
+import { getUser } from 'store/user';
+import { getCurrentDeal, getCanSelectCard } from 'store/game';
 import { Meme } from 'types/meme';
 
 interface TProps extends TransitionProps {
@@ -20,17 +21,32 @@ const Transition = forwardRef((props: TProps, ref: React.Ref<unknown>) => (
 
 type Props = {
   children: ReactElement;
+  isJudge: boolean;
   cards: Meme[];
   onChooseCard: (card: Meme) => void;
 };
 
-export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
+export const CardsDialog = ({
+  children,
+  isJudge,
+  cards,
+  onChooseCard,
+}: Props) => {
+  const user = useAppSelector(getUser);
+  const currentDeal = useAppSelector(getCurrentDeal);
   const canSelectCard = useAppSelector(getCanSelectCard);
+
+  const userMadeBet = !!currentDeal?.bets?.some(bet => bet.userId === user?.id);
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null);
 
-  const handleClickOpen = () => setOpenDialog(true);
+  // const disabledOpenDialog = userMadeBet || isJudge;
+
+  const handleClickOpen = () => {
+    if (isJudge) return;
+    setOpenDialog(true);
+  };
   const handleClose = () => setOpenDialog(false);
 
   const openFullScreanModal = (meme: Meme) => {
@@ -46,7 +62,7 @@ export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
   return (
     <>
       <StyledTooltip title="Open meme cards" onClick={handleClickOpen}>
-        <Wrapper>{children}</Wrapper>
+        <Wrapper disabled={isJudge}>{children}</Wrapper>
       </StyledTooltip>
 
       <StyledDialog
@@ -86,15 +102,18 @@ export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
                 alt={selectedMeme?.title}
                 loading="lazy"
               />
-              <Box p={2} display="flex" justifyContent="center">
-                <Button
-                  size="large"
-                  variant="contained"
-                  onClick={putCardOnTable.bind(null, selectedMeme!)}
-                >
-                  Select
-                </Button>
-              </Box>
+
+              {!userMadeBet && (
+                <Box p={2} display="flex" justifyContent="center">
+                  <Button
+                    size="large"
+                    variant="contained"
+                    onClick={putCardOnTable.bind(null, selectedMeme!)}
+                  >
+                    Select
+                  </Button>
+                </Box>
+              )}
             </GradientBox>
           </Modal>
         </>
@@ -103,17 +122,25 @@ export const CardsDialog = ({ children, cards, onChooseCard }: Props) => {
   );
 };
 
+interface DisabledBoxProps extends BoxProps {
+  disabled: boolean;
+}
+
 const StyledTooltip = styled(Tooltip)`
   width: 100%;
   height: 100%;
 `;
 
-const Wrapper = styled(Box)`
-  cursor: pointer;
+const Wrapper = styled(
+  forwardRef(({ disabled, ...props }: DisabledBoxProps, ref) => (
+    <Box ref={ref} {...props} />
+  )),
+)`
   width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 `;
 
 const StyledDialog = styled(Dialog)`
@@ -142,11 +169,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   align-items: center;
 `;
 
-interface ImageBoxProps extends BoxProps {
-  disabled: boolean;
-}
-
-const ImageBox = styled(({ disabled, ...props }: ImageBoxProps) => (
+const ImageBox = styled(({ disabled, ...props }: DisabledBoxProps) => (
   <Box {...props} />
 ))`
   object-fit: cover;

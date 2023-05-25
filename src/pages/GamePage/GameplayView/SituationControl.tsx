@@ -23,31 +23,33 @@ export const SituationControl = ({
     situation => situation.id === currentDeal?.situationId,
   );
 
-  return (
-    <>
-      {isJudge && currentDeal?.status === DEAL_STATUS.NOT_STARTED && (
-        <Backdrop open>
-          <Stack alignItems="center" spacing={2}>
-            <Typography variant="h5" color="white">
-              In this round you will be judge!
-            </Typography>
-            <Button variant="contained" onClick={showSituation}>
-              Start deal
-            </Button>
-          </Stack>
-        </Backdrop>
-      )}
+  if (isJudge && currentDeal?.status === DEAL_STATUS.NOT_STARTED) {
+    return (
+      <Backdrop open>
+        <Stack alignItems="center" spacing={2}>
+          <Typography variant="h5" color="white">
+            In this round you will be judge!
+          </Typography>
+          <Button variant="contained" onClick={showSituation}>
+            Start deal
+          </Button>
+        </Stack>
+      </Backdrop>
+    );
+  }
 
-      {currentDeal?.status === DEAL_STATUS.STARTED && (
-        <SituatiosBox>
-          <SituationCard
-            text={currentSituations?.text!}
-            colors={currentSituations?.colors!}
-          />
-        </SituatiosBox>
-      )}
-    </>
-  );
+  if (currentDeal?.status === DEAL_STATUS.STARTED) {
+    return (
+      <SituatiosBox>
+        <SituationCard
+          text={currentSituations?.text!}
+          colors={currentSituations?.colors!}
+        />
+      </SituatiosBox>
+    );
+  }
+
+  return null;
 };
 
 const SituatiosBox = styled(Box)`

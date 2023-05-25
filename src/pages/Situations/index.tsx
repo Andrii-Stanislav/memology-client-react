@@ -31,5 +31,5 @@ export const Situations = () => {
 };
 
 const GridItem = styled(Grid)`
-  height: 200px;
+  min-height: 200px;
 `;

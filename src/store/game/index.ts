@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Game, PLAYER_STATUS, DEAL_STATUS } from 'types/game';
+import { Game, Bet, PLAYER_STATUS, DEAL_STATUS } from 'types/game';
 
 import { initialState } from './initialState';
 
@@ -29,6 +29,19 @@ export const gameSlice = createSlice({
           : deal,
       );
     },
+    addNewBet: (state, { payload }: PayloadAction<Bet>) => {
+      state.deals = state.deals.map(deal =>
+        deal.id === state.currentDealId
+          ? {
+              ...deal,
+              bets: [
+                ...(deal?.bets?.filter(({ id }) => id !== payload.id) ?? []),
+                payload,
+              ],
+            }
+          : deal,
+      );
+    },
   },
 });
 
@@ -38,6 +51,7 @@ export const {
   removePlayerFromGame,
   setPlayerReady,
   setCurrentDealStarted,
+  addNewBet,
 } = gameSlice.actions;
 
 export const gameReducer = gameSlice.reducer;

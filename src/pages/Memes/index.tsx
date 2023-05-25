@@ -70,6 +70,9 @@ export const Memes = () => {
 const StyledImageListItem = styled(ImageListItem)`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  background-color: #ffffff6d;
+  border-radius: 8px;
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.05);

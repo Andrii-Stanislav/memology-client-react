@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 import { Box, Button, Backdrop } from '@mui/material';
 
 import { setPlayerReadyForGame } from 'api/players';
-import { startDeal } from 'api/deals';
+import { startDeal, setDealVinner } from 'api/deals';
+import { createBet } from 'api/bets';
 import { PLAYER_STATUS } from 'types/game';
 import { Meme } from 'types/meme';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
@@ -16,6 +17,7 @@ import {
   hasNoGame,
   getCurrentDeal,
   setCurrentDealStarted,
+  addNewBet,
 } from 'store/game';
 import { getAllMemes } from 'store/memes';
 
@@ -24,6 +26,7 @@ import { CurrentUser, PlayerName } from './PlayerElements';
 import { CardsDialog } from './CardsDialog';
 import { GameTable } from './GameTable';
 import { SituationControl } from './SituationControl';
+import { BetsControl } from './BetsControl';
 
 type Props = {
   updateGame: () => void;
@@ -41,6 +44,11 @@ export const GameplayView = ({ updateGame }: Props) => {
   const mainPlayer = useMemo(
     () => game.players.find(({ userId }) => userId === user?.id)!,
     [user, game],
+  );
+
+  const isJudge = useMemo(
+    () => mainPlayer?.userId === currentDeal?.judgeId,
+    [currentDeal?.judgeId, mainPlayer?.userId],
   );
 
   const players = useMemo(
@@ -75,6 +83,30 @@ export const GameplayView = ({ updateGame }: Props) => {
   };
 
   const onChooseCard = (card: Meme) => {
+    createBet({ dealId: currentDeal?.id!, cardId: card.id })
+      .then(({ data }) => {
+        dispatch(addNewBet(data));
+        gameSocket.emit(GAME_WS_KEYS.CREATE_BET, {
+          gameId: currentDeal?.gameId,
+          newBet: data,
+        });
+      })
+      .then(() => {
+        // TODO - remove this card from player
+      });
+  };
+
+  const onSelectViner = (dealId: number, userId: number) => {
+    setDealVinner(dealId, userId).then(() => {
+      updateGame();
+      gameSocket.emit(GAME_WS_KEYS.DEAL_FINISHED, {
+        gameId: currentDeal?.gameId,
+        dealId,
+      });
+    });
+  };
+
+  const goToNextDeal = () => {
     // TODO
   };
 
@@ -88,9 +120,13 @@ export const GameplayView = ({ updateGame }: Props) => {
 
       <CurrentUser
         isReady={mainPlayer?.status === PLAYER_STATUS.READY}
-        isJudge={mainPlayer.userId === currentDeal?.judgeId}
+        isJudge={isJudge}
       >
-        <CardsDialog cards={cards} onChooseCard={onChooseCard}>
+        <CardsDialog
+          isJudge={isJudge}
+          cards={cards}
+          onChooseCard={onChooseCard}
+        >
           <PlayerName>{mainPlayer?.name}</PlayerName>
         </CardsDialog>
       </CurrentUser>
@@ -103,8 +139,15 @@ export const GameplayView = ({ updateGame }: Props) => {
 
       <SituationControl
         currentDeal={currentDeal}
-        isJudge={mainPlayer.userId === currentDeal?.judgeId}
+        isJudge={isJudge}
         showSituation={showSituation}
+      />
+
+      <BetsControl
+        isJudge={isJudge}
+        currentDeal={currentDeal}
+        onSelectViner={onSelectViner}
+        goToNextDeal={goToNextDeal}
       />
 
       {mainPlayer?.status === PLAYER_STATUS.WAITING && (

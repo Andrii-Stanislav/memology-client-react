@@ -7,8 +7,15 @@ type Props = {
 };
 
 export const SituationCard = ({ text, colors }: Props) => {
+  const onTestSpeech = () => {
+    let msg = new SpeechSynthesisUtterance();
+    msg.lang = 'uk-UK';
+    msg.text = text.reduce((acc, t) => `${acc} ${t}`, '');
+    window?.speechSynthesis.speak(msg);
+  };
+
   return (
-    <Situatios>
+    <Situatios onClick={onTestSpeech}>
       {text.map((textItem, index) => (
         <TextItem key={textItem} color={colors[index % 2]}>
           {textItem}
@@ -23,6 +30,7 @@ const Situatios = styled(Paper)`
   height: 100%;
   background-color: #ffffff8a;
   padding: 10px;
+  cursor: pointer;
 `;
 
 interface TextItemProps extends TypographyProps {

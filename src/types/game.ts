@@ -75,3 +75,8 @@ export type JoinGameData = {
   joinCode: string;
   playerName: string;
 };
+
+export type CreateBet = {
+  dealId: number;
+  cardId: number;
+};

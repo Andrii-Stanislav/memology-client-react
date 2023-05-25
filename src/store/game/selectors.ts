@@ -14,3 +14,8 @@ export const getCanSelectCard = createSelector(
   getCurrentDeal,
   deal => deal?.status === DEAL_STATUS.STARTED,
 );
+
+export const getCurrentDealVinner = createSelector(
+  [getCurrentGame, getCurrentDeal],
+  (game, deal) => game.players.find(player => player.userId === deal?.vinnerId),
+);
