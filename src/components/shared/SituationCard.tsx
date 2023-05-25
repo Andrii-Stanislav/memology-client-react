@@ -8,15 +8,17 @@ type Props = {
 
 export const SituationCard = ({ text, colors }: Props) => {
   const onTestSpeech = () => {
-    let msg = new SpeechSynthesisUtterance();
-    msg.lang = 'uk-UK';
-    msg.text = text.reduce((acc, t) => `${acc} ${t}`, '');
-    window?.speechSynthesis.speak(msg);
+    // * SpeechSynthesisUtterance suсks
+    // TODO - try somthing else
+    // let msg = new SpeechSynthesisUtterance();
+    // msg.lang = 'uk';
+    // msg.text = text.reduce((acc, t) => `${acc} ${t}`, '');
+    // window?.speechSynthesis.speak(msg);
   };
 
   return (
-    <Situatios onClick={onTestSpeech}>
-      {text.map((textItem, index) => (
+    <Situatios>
+      {text?.map((textItem, index) => (
         <TextItem key={textItem} color={colors[index % 2]}>
           {textItem}
         </TextItem>

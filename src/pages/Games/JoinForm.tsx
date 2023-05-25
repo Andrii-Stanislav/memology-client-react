@@ -42,7 +42,11 @@ export const JoinForm = ({
 
   const onSubmit = handleSubmit(async values => {
     try {
-      const { data } = await joinGame(values);
+      const { data } = await joinGame({
+        playerName: values.playerName,
+        joinCode: values.joinCode,
+        gameId: Number(values.gameId),
+      });
       afterJoin(data.gameId);
     } catch (error) {
       // TODO - show error

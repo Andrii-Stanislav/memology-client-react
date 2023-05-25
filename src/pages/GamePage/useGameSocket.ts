@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 
 import { useAppDispatch } from 'store';
 import {
+  setCurrentGame,
   removePlayerFromGame,
   setPlayerReady,
   setCurrentDealStarted,
   addNewBet,
 } from 'store/game';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
-import type { Bet } from 'types/game';
+import type { Game, Bet } from 'types/game';
 
 type Props = {
   gameId?: string;
@@ -51,6 +52,10 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       updateGame();
     };
 
+    const onFinishGame = (game: Game) => {
+      dispatch(setCurrentGame(game));
+    };
+
     gameSocket.on(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);
     gameSocket.on(`${GAME_WS_KEYS.LEAVE_GAME}/${gameId}`, onPlayerLeave);
     gameSocket.on(`${GAME_WS_KEYS.READY_FOR_GAME}/${gameId}`, onPlayerReady);
@@ -59,6 +64,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
     gameSocket.on(`${GAME_WS_KEYS.CREATE_BET}/${gameId}`, onBetCreate);
     gameSocket.on(`${GAME_WS_KEYS.DEAL_FINISHED}/${gameId}`, onDealFinished);
     gameSocket.on(`${GAME_WS_KEYS.CREATE_NEW_DEAL}/${gameId}`, onNewDeal);
+    gameSocket.on(`${GAME_WS_KEYS.GAME_FINISHED}/${gameId}`, onFinishGame);
 
     return () => {
       gameSocket.off(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);
@@ -69,6 +75,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       gameSocket.off(`${GAME_WS_KEYS.CREATE_BET}/${gameId}`, onBetCreate);
       gameSocket.off(`${GAME_WS_KEYS.DEAL_FINISHED}/${gameId}`, onDealFinished);
       gameSocket.off(`${GAME_WS_KEYS.CREATE_NEW_DEAL}/${gameId}`, onNewDeal);
+      gameSocket.off(`${GAME_WS_KEYS.GAME_FINISHED}/${gameId}`, onFinishGame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

@@ -61,7 +61,14 @@ export const CardsDialog = ({
 
   return (
     <>
-      <StyledTooltip title="Open meme cards" onClick={handleClickOpen}>
+      <StyledTooltip
+        title={
+          isJudge
+            ? "You can't throw a meme in this deal because you JUDGE!!!"
+            : 'Open meme cards'
+        }
+        onClick={handleClickOpen}
+      >
         <Wrapper disabled={isJudge}>{children}</Wrapper>
       </StyledTooltip>
 

@@ -8,7 +8,7 @@ const Form = {
   defaultValues: {
     title: '',
     playersCount: 3,
-    totalCardsPerUser: 20,
+    dealsCount: 5,
     cardsOnHands: 5,
   },
 };
@@ -57,8 +57,8 @@ export const CreateForm = ({ afterCreate }: Props) => {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            label="Cards per user"
-            {...register('totalCardsPerUser')}
+            label="Deals count"
+            {...register('dealsCount')}
             fullWidth
             type="number"
             variant="outlined"

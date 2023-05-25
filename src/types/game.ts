@@ -66,7 +66,7 @@ export type Game = {
 export type CreateGameData = {
   title: string;
   playersCount: number;
-  totalCardsPerUser: number;
+  dealsCount: number;
   cardsOnHands: number;
 };
 

@@ -5,7 +5,7 @@ import { Box, Button, Backdrop } from '@mui/material';
 import { createNewDeal } from 'api/games';
 import { setPlayerReadyForGame, makeBet } from 'api/players';
 import { startDeal, setDealVinner } from 'api/deals';
-import { PLAYER_STATUS } from 'types/game';
+import { GAME_STATUS, PLAYER_STATUS } from 'types/game';
 import { Meme } from 'types/meme';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
@@ -27,6 +27,7 @@ import { CardsDialog } from './CardsDialog';
 import { GameTable } from './GameTable';
 import { SituationControl } from './SituationControl';
 import { BetsControl } from './BetsControl';
+import { FinishedGame } from './FinishedGame';
 
 type Props = {
   updateGame: () => void;
@@ -41,7 +42,7 @@ export const GameplayView = ({ updateGame }: Props) => {
   const noGame = useAppSelector(hasNoGame);
   const currentDeal = useAppSelector(getCurrentDeal);
 
-  console.log('game: ', game);
+  const gameFinished = game.status === GAME_STATUS.FINISHED;
 
   const mainPlayer = useMemo(
     () => game.players.find(({ userId }) => userId === user?.id)!,
@@ -135,24 +136,32 @@ export const GameplayView = ({ updateGame }: Props) => {
         </CardsDialog>
       </CurrentUser>
 
-      <LeaveGame
-        mainPlayerId={mainPlayer.id}
-        gameId={game.id}
-        userId={user?.id!}
-      />
+      {!gameFinished && (
+        <LeaveGame
+          mainPlayerId={mainPlayer.id}
+          gameId={game.id}
+          userId={user?.id!}
+        />
+      )}
 
-      <SituationControl
-        currentDeal={currentDeal}
-        isJudge={isJudge}
-        showSituation={showSituation}
-      />
+      {!gameFinished && (
+        <SituationControl
+          currentDeal={currentDeal}
+          isJudge={isJudge}
+          showSituation={showSituation}
+        />
+      )}
 
-      <BetsControl
-        isJudge={isJudge}
-        currentDeal={currentDeal}
-        onSelectViner={onSelectViner}
-        goToNextDeal={goToNextDeal}
-      />
+      {!gameFinished && (
+        <BetsControl
+          isJudge={isJudge}
+          currentDeal={currentDeal}
+          onSelectViner={onSelectViner}
+          goToNextDeal={goToNextDeal}
+        />
+      )}
+
+      {gameFinished && <FinishedGame />}
 
       {mainPlayer?.status === PLAYER_STATUS.WAITING && (
         <Backdrop open>

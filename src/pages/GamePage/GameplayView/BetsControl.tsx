@@ -54,7 +54,7 @@ export const BetsControl = ({
   const allMemes = useAppSelector(getAllMemes);
   const dealViner = useAppSelector(getCurrentDealVinner);
 
-  const [openDialog, setOpenDialog] = useState(true);
+  const [openDialog, setOpenDialog] = useState(false);
   const [modal, setModal] = useState<ModalType>(INIT_MODAL);
 
   const openFullScreanModal = (bet: Bet, meme: Meme) => {
@@ -67,7 +67,9 @@ export const BetsControl = ({
   };
 
   useEffect(() => {
-    // TODO - open last added meme in full screen
+    if ((currentDeal?.bets ?? []).length > 0) {
+      setOpenDialog(true);
+    }
   }, [currentDeal?.bets]);
 
   if (currentDeal?.status === DEAL_STATUS.NOT_STARTED) {
@@ -186,7 +188,7 @@ const StyledDialog = styled(Dialog)`
     margin: 0;
     width: 100vw;
     max-width: 100vw;
-    background-color: #ffffff5f;
+    background-color: #ffffffa8;
     pointer-events: all;
   }
 `;
