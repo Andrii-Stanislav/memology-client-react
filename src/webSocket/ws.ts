@@ -1,6 +1,6 @@
 import { Manager } from 'socket.io-client';
 
-const socketManager = new Manager('http://localhost:5001', {
+const socketManager = new Manager(process.env.REACT_API_BASE_URL, {
   autoConnect: false,
 });
 

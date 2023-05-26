@@ -4,7 +4,7 @@ import { setupInterceptorsTo } from './Interceptors';
 
 export const api = setupInterceptorsTo(
   axios.create({
-    baseURL: 'http://localhost:5001', // process.env.BASE_API_URL,
+    baseURL: process.env.REACT_API_BASE_URL,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
