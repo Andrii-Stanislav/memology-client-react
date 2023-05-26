@@ -19,6 +19,12 @@ const NumericFormatCustom = forwardRef<PatternFormatProps, CustomProps>(
   ),
 );
 
+const prepareSubmitData = (data: JoinGameData) => ({
+  playerName: data.playerName,
+  joinCode: data.joinCode,
+  gameId: Number(data.gameId),
+});
+
 type Props = {
   defaultValues?: Partial<JoinGameData>;
   disabledGameId?: boolean;
@@ -42,15 +48,9 @@ export const JoinForm = ({
 
   const onSubmit = handleSubmit(async values => {
     try {
-      const { data } = await joinGame({
-        playerName: values.playerName,
-        joinCode: values.joinCode,
-        gameId: Number(values.gameId),
-      });
+      const { data } = await joinGame(prepareSubmitData(values));
       afterJoin(data.gameId);
-    } catch (error) {
-      // TODO - show error
-    }
+    } catch (e) {}
   });
 
   return (

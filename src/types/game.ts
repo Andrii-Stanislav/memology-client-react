@@ -39,7 +39,7 @@ export type Deal = {
   status: DEAL_STATUS;
   situationId: number;
   gameId: number;
-  vinnerId: number | null;
+  winnerId: number | null;
   judgeId: number;
   bets: Bet[];
 };

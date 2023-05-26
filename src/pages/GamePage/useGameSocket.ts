@@ -2,20 +2,20 @@ import { useEffect } from 'react';
 
 import { useAppDispatch } from 'store';
 import {
-  setCurrentGame,
   removePlayerFromGame,
   setPlayerReady,
   setCurrentDealStarted,
   addNewBet,
 } from 'store/game';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
-import type { Game, Bet } from 'types/game';
+import type { Bet } from 'types/game';
 
 type Props = {
   gameId?: string;
   updateGame: () => void;
 };
 
+// TODO - add notifications for socket events
 export const useGameSocket = ({ gameId, updateGame }: Props) => {
   const dispatch = useAppDispatch();
 
@@ -52,8 +52,8 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
       updateGame();
     };
 
-    const onFinishGame = (game: Game) => {
-      dispatch(setCurrentGame(game));
+    const onFinishGame = () => {
+      updateGame();
     };
 
     gameSocket.on(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);

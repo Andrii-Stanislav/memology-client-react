@@ -16,7 +16,7 @@ import { Pagination, Navigation } from 'swiper';
 import { Modal, GradientBox } from 'components/shared';
 import { useAppSelector } from 'store';
 import { getAllMemes } from 'store/memes';
-import { getCurrentDealVinner } from 'store/game';
+import { getCurrentDealWinner, getIsAllUsersMadeBet } from 'store/game';
 import { Bet, Deal, DEAL_STATUS } from 'types/game';
 import type { Meme } from 'types/meme';
 
@@ -52,8 +52,8 @@ export const BetsControl = ({
   goToNextDeal,
 }: Props) => {
   const allMemes = useAppSelector(getAllMemes);
-  const dealViner = useAppSelector(getCurrentDealVinner);
-
+  const dealWinner = useAppSelector(getCurrentDealWinner);
+  const allUsersMadeBet = useAppSelector(getIsAllUsersMadeBet);
   const [openDialog, setOpenDialog] = useState(false);
   const [modal, setModal] = useState<ModalType>(INIT_MODAL);
 
@@ -69,10 +69,18 @@ export const BetsControl = ({
   useEffect(() => {
     if ((currentDeal?.bets ?? []).length > 0) {
       setOpenDialog(true);
+      setModal(INIT_MODAL);
     }
   }, [currentDeal?.bets]);
 
-  if (currentDeal?.status === DEAL_STATUS.NOT_STARTED) {
+  useEffect(() => {
+    if (currentDeal?.status === DEAL_STATUS.FINISHED) {
+      setOpenDialog(false);
+      setModal(INIT_MODAL);
+    }
+  }, [currentDeal?.status]);
+
+  if (!currentDeal || currentDeal?.status === DEAL_STATUS.NOT_STARTED) {
     return null;
   }
 
@@ -81,12 +89,12 @@ export const BetsControl = ({
       <Backdrop open>
         <Stack spacing={2} alignItems="center">
           <Typography variant="h5" color="white">
-            Vinner : {dealViner?.name}
+            Winner : {dealWinner?.name}
           </Typography>
           {isJudge && (
             <Button
               variant="contained"
-              onClick={goToNextDeal.bind(null, dealViner?.userId!)}
+              onClick={goToNextDeal.bind(null, dealWinner?.userId!)}
             >
               Go to next deal
             </Button>
@@ -153,6 +161,7 @@ export const BetsControl = ({
                     size="large"
                     variant="contained"
                     onClick={handlerSelectViner}
+                    disabled={!allUsersMadeBet}
                   >
                     Select as deal viner
                   </Button>

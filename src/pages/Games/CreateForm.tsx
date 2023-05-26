@@ -13,6 +13,13 @@ const Form = {
   },
 };
 
+const prepareSubmitData = (data: CreateGameData) => ({
+  title: data.title,
+  playersCount: Number(data.playersCount),
+  dealsCount: Number(data.dealsCount),
+  cardsOnHands: Number(data.cardsOnHands),
+});
+
 type Props = {
   afterCreate: (gameId: number) => void;
 };
@@ -26,11 +33,9 @@ export const CreateForm = ({ afterCreate }: Props) => {
 
   const onSubmit = handleSubmit(async values => {
     try {
-      const { data } = await createGame(values);
+      const { data } = await createGame(prepareSubmitData(values));
       afterCreate(data.id);
-    } catch (error) {
-      // TODO - show error
-    }
+    } catch (e) {}
   });
 
   return (
@@ -62,7 +67,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
             fullWidth
             type="number"
             variant="outlined"
-            disabled
+            // disabled
           />
         </Grid>
         <Grid item xs={6}>

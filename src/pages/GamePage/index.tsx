@@ -13,7 +13,7 @@ import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
 import { useAppDispatch, useAppSelector } from 'store';
 import { getUser } from 'store/user';
-import { setCurrentGame } from 'store/game';
+import { setCurrentGame, clearCurrentGame, hasNoGame } from 'store/game';
 
 import { useGameSocket } from './useGameSocket';
 import { GameBackground } from './GameBackground';
@@ -25,7 +25,7 @@ export const GamePage = () => {
 
   const dispatch = useAppDispatch();
 
-  const { data, isFetched, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['getGameById', gameId],
     queryFn: ({ queryKey }) => getGameById(queryKey[1]!),
   });
@@ -34,9 +34,17 @@ export const GamePage = () => {
     data?.data && dispatch(setCurrentGame(data?.data));
   }, [dispatch, data?.data]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearCurrentGame());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useGameSocket({ gameId, updateGame: refetch });
 
   const user = useAppSelector(getUser);
+  const noGame = useAppSelector(hasNoGame);
   const game = data?.data;
 
   const afterJoin = () => {
@@ -47,7 +55,7 @@ export const GamePage = () => {
     refetch();
   };
 
-  if (!isFetched) {
+  if (noGame) {
     return (
       <Backdrop open>
         <CircularProgress color="inherit" />
@@ -75,7 +83,7 @@ export const GamePage = () => {
 
   return (
     <GameBackground game={game}>
-      <JoinView afterJoin={afterJoin} />
+      <JoinView game={game} afterJoin={afterJoin} />
     </GameBackground>
   );
 };

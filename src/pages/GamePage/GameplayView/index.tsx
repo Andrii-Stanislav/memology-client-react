@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 
 import { Box, Button, Backdrop } from '@mui/material';
 
 import { createNewDeal } from 'api/games';
 import { setPlayerReadyForGame, makeBet } from 'api/players';
-import { startDeal, setDealVinner } from 'api/deals';
-import { GAME_STATUS, PLAYER_STATUS } from 'types/game';
+import { startDeal, setDealWinner } from 'api/deals';
+import { GAME_STATUS, PLAYER_STATUS, DEAL_STATUS } from 'types/game';
 import { Meme } from 'types/meme';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
@@ -45,7 +45,7 @@ export const GameplayView = ({ updateGame }: Props) => {
   const gameFinished = game.status === GAME_STATUS.FINISHED;
 
   const mainPlayer = useMemo(
-    () => game.players.find(({ userId }) => userId === user?.id)!,
+    () => game.players?.find(({ userId }) => userId === user?.id)!,
     [user, game],
   );
 
@@ -55,9 +55,18 @@ export const GameplayView = ({ updateGame }: Props) => {
   );
 
   const players = useMemo(
-    () => game.players.filter(({ userId }) => userId !== user?.id),
+    () => game.players?.filter(({ userId }) => userId !== user?.id),
     [game, user?.id],
   );
+
+  useEffect(() => {
+    if (
+      game.situations.length === 0 &&
+      currentDeal?.status === DEAL_STATUS.FINISHED
+    ) {
+      updateGame();
+    }
+  }, [updateGame, currentDeal?.status, game.situations.length]);
 
   if (noGame || !mainPlayer) {
     return null;
@@ -99,7 +108,7 @@ export const GameplayView = ({ updateGame }: Props) => {
   };
 
   const onSelectViner = (dealId: number, userId: number) => {
-    setDealVinner(dealId, userId).then(() => {
+    setDealWinner(dealId, userId).then(() => {
       gameSocket.emit(GAME_WS_KEYS.DEAL_FINISHED, {
         gameId: game.id,
         dealId,
@@ -109,6 +118,8 @@ export const GameplayView = ({ updateGame }: Props) => {
   };
 
   const goToNextDeal = (vinerId: number) => {
+    if (game.situations.length === 0) return;
+
     createNewDeal(game.id, { judgeId: vinerId }).then(() => {
       gameSocket.emit(GAME_WS_KEYS.CREATE_NEW_DEAL, { gameId: game.id });
       updateGame();

@@ -2,21 +2,16 @@ import { Stack, Typography } from '@mui/material';
 
 import { useAppSelector } from 'store';
 import { getUser } from 'store/user';
-import { hasNoGame, getCurrentGame } from 'store/game';
 import { JoinForm } from 'pages/Games/JoinForm';
+import { Game } from 'types/game';
 
 type Props = {
+  game: Game;
   afterJoin: () => void;
 };
 
-export const JoinView = ({ afterJoin }: Props) => {
+export const JoinView = ({ game, afterJoin }: Props) => {
   const user = useAppSelector(getUser);
-  const game = useAppSelector(getCurrentGame);
-  const noGame = useAppSelector(hasNoGame);
-
-  if (noGame) {
-    return null;
-  }
 
   const isCreator = user?.id === game?.creator?.id;
 

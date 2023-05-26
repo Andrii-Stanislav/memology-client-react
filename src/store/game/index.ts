@@ -9,7 +9,7 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {
     setCurrentGame: (state, action: PayloadAction<Game>) => action.payload,
-    cleaCurrentGame: state => {
+    clearCurrentGame: state => {
       state = initialState;
     },
     removePlayerFromGame: (state, { payload }: PayloadAction<number>) => {
@@ -47,7 +47,7 @@ export const gameSlice = createSlice({
 
 export const {
   setCurrentGame,
-  cleaCurrentGame,
+  clearCurrentGame,
   removePlayerFromGame,
   setPlayerReady,
   setCurrentDealStarted,

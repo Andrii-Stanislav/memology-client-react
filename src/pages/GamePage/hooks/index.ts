@@ -9,7 +9,7 @@ export const useSecondRunningLineText = () => {
   const game = useAppSelector(getCurrentGame);
   const currentDeal = useAppSelector(getCurrentDeal);
 
-  if (game.players.every(player => player.userId !== user?.id)) {
+  if (game.players?.every(player => player.userId !== user?.id)) {
     return "Let's join";
   }
 
@@ -21,6 +21,9 @@ export const useSecondRunningLineText = () => {
     return `Deal #${game.deals.length}. Status: ${currentDeal?.status}`;
   }
 
-  // TODO
-  return 'qweqwe';
+  if (game.status === GAME_STATUS.FINISHED) {
+    return 'Game is over';
+  }
+
+  return '';
 };
