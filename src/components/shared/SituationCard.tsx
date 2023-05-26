@@ -7,14 +7,14 @@ type Props = {
 };
 
 export const SituationCard = ({ text, colors }: Props) => {
-  const onTestSpeech = () => {
-    // * SpeechSynthesisUtterance suсks
-    // TODO - try somthing else
-    // let msg = new SpeechSynthesisUtterance();
-    // msg.lang = 'uk';
-    // msg.text = text.reduce((acc, t) => `${acc} ${t}`, '');
-    // window?.speechSynthesis.speak(msg);
-  };
+  // const onTestSpeech = () => {
+  // * SpeechSynthesisUtterance suсks
+  // TODO - try somthing else
+  // let msg = new SpeechSynthesisUtterance();
+  // msg.lang = 'uk';
+  // msg.text = text.reduce((acc, t) => `${acc} ${t}`, '');
+  // window?.speechSynthesis.speak(msg);
+  // };
 
   return (
     <Situatios>
