@@ -29,7 +29,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-  toast.error(error.toString());
+  toast.error(error.message?.toString());
   return Promise.reject(error);
 };
 
