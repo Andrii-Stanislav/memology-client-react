@@ -4,3 +4,7 @@ export interface Meme {
   description: string;
   image: string;
 }
+
+export type SuggestMemeFormType = {
+  title: string;
+};

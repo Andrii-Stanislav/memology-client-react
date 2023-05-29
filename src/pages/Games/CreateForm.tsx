@@ -43,7 +43,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Game name"
+            label="Назва гри"
             {...register('title')}
             fullWidth
             variant="outlined"
@@ -52,7 +52,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            label="Players"
+            label="Кількість гравців"
             {...register('playersCount')}
             fullWidth
             type="number"
@@ -62,17 +62,16 @@ export const CreateForm = ({ afterCreate }: Props) => {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            label="Deals count"
+            label="Кількість роздач"
             {...register('dealsCount')}
             fullWidth
             type="number"
             variant="outlined"
-            // disabled
           />
         </Grid>
         <Grid item xs={6}>
           <TextField
-            label="Cards on hands"
+            label="Карт на руках"
             {...register('cardsOnHands')}
             fullWidth
             type="number"
@@ -89,7 +88,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
           variant="outlined"
           disabled={isSubmitting}
         >
-          Create
+          Створити
         </Button>
       </Box>
     </Box>

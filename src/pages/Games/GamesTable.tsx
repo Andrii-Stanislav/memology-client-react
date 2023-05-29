@@ -11,7 +11,7 @@ import {
   Badge,
   Tooltip,
 } from '@mui/material';
-import { TagFaces, InsertPhoto } from '@mui/icons-material';
+import { TagFaces, InsertPhoto, ContentCopy } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link, generatePath } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -33,17 +33,19 @@ export const GamesTable = ({ games, isFetched }: Props) => {
 
   const onCopyJoinCode = (joinCode: string) => {
     navigator.clipboard.writeText(joinCode);
-    toast.info('Join code successfully copied');
+    toast.info('Код приєднання до гри скопійовано!');
   };
 
   const onCopyGameLink = (gamePath: string) => {
     navigator.clipboard.writeText(`${window.location.origin}${gamePath}`);
-    toast.info('Game link successfully copied');
+    toast.info('Посілання на гру скопійовано!');
   };
 
   if (isFetched && games?.length === 0) {
     return (
-      <Typography align="center">You don't have any created games</Typography>
+      <Typography align="center">
+        Тут нічого не має ( <br />
+      </Typography>
     );
   }
 
@@ -66,12 +68,12 @@ export const GamesTable = ({ games, isFetched }: Props) => {
                   />
                   <StyledCardContent>
                     <Badge badgeContent={game.playersCount} color="primary">
-                      <Tooltip title="Players count">
+                      <Tooltip title="Кількість гравців">
                         <TagFaces color="action" />
                       </Tooltip>
                     </Badge>
                     <Badge badgeContent={game.cardsOnHands} color="primary">
-                      <Tooltip title="Cards on hands">
+                      <Tooltip title="Карт на руках у гравця">
                         <InsertPhoto color="action" />
                       </Tooltip>
                     </Badge>
@@ -79,20 +81,22 @@ export const GamesTable = ({ games, isFetched }: Props) => {
                   </StyledCardContent>
                   <StyledCardActions>
                     <Button
+                      startIcon={<ContentCopy />}
                       variant="outlined"
                       size="small"
                       onClick={onCopyJoinCode.bind(null, game.joinCode)}
                     >
-                      Copy join code
+                      Код гри
                     </Button>
 
                     <Button
+                      startIcon={<ContentCopy />}
                       variant="outlined"
                       size="small"
                       onClick={onCopyGameLink.bind(null, gameLink)}
                       disabled={user?.id !== game.creatorId}
                     >
-                      Copy game link
+                      Посилання
                     </Button>
                   </StyledCardActions>
                 </StyledCard>

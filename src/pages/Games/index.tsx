@@ -56,7 +56,7 @@ export const Games = () => {
             size="large"
             onClick={onCreateOpen}
           >
-            Creacte new game
+            Створити нову гру
           </Button>
           <Button
             variant="outlined"
@@ -64,13 +64,13 @@ export const Games = () => {
             size="large"
             onClick={onJoinOpen}
           >
-            Join game
+            Приєднатися до гри
           </Button>
         </Stack>
 
         <Box pt={4}>
           <Typography variant="h6" pb={2} align="center">
-            Created games
+            Твої створені ігри
           </Typography>
           <GamesTable
             games={createdGames?.data ?? []}
@@ -80,7 +80,7 @@ export const Games = () => {
 
         <Box pt={4}>
           <Typography variant="h6" pb={2} align="center">
-            Participated games
+            Ігри де ти береш участь
           </Typography>
           <GamesTable
             games={participatedGames?.data ?? []}

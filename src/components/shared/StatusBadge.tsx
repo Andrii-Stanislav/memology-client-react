@@ -15,11 +15,11 @@ type Props = {
 export const StatusBadge = ({ status }: Props) => {
   const title =
     status === GAME_STATUS.NOT_STARTED
-      ? 'Not started'
+      ? 'Ще не почалася'
       : status === GAME_STATUS.STARTED
-      ? 'Started'
+      ? 'Розпочалася'
       : status === GAME_STATUS.FINISHED
-      ? 'Finished'
+      ? 'Гру закінчено'
       : '';
 
   return (
