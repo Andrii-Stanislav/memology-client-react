@@ -44,13 +44,13 @@ export const AurhForm = ({
             <TextField
               {...register('email')}
               fullWidth
-              label="Email Address"
+              label="Електронна пошта"
               autoFocus
             />
             <PasswordTextField
               {...register('password')}
               fullWidth
-              label="Password"
+              label="Пароль"
             />
           </Stack>{' '}
           <Button
