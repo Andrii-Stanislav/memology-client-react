@@ -89,14 +89,14 @@ export const BetsControl = ({
       <Backdrop open>
         <Stack spacing={2} alignItems="center">
           <Typography variant="h5" color="white">
-            Winner : {dealWinner?.name}
+            Переможець : {dealWinner?.name}
           </Typography>
           {isJudge && (
             <Button
               variant="contained"
               onClick={goToNextDeal.bind(null, dealWinner?.userId!)}
             >
-              Go to next deal
+              Перейти до наступного раунду
             </Button>
           )}
         </Stack>
@@ -108,7 +108,7 @@ export const BetsControl = ({
     <>
       {!openDialog && (
         <ShowButton variant="outlined" onClick={setOpenDialog.bind(null, true)}>
-          Show cards
+          Показати меми
         </ShowButton>
       )}
 
@@ -123,7 +123,7 @@ export const BetsControl = ({
             size="small"
             onClick={setOpenDialog.bind(null, false)}
           >
-            Hide cards
+            Сховати меми
           </Button>
 
           <StyledSwiper
@@ -163,7 +163,7 @@ export const BetsControl = ({
                     onClick={handlerSelectViner}
                     disabled={!allUsersMadeBet}
                   >
-                    Select as deal viner
+                    Обрати переможцем!
                   </Button>
                 </Box>
               )}

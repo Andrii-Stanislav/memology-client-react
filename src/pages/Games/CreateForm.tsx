@@ -1,16 +1,24 @@
-import { Button, Box, Grid, TextField } from '@mui/material';
+import {
+  Button,
+  Box,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { createGame } from 'api/games';
+import { ALLOWED_PLAYERS_IN_GAME } from 'constants/game';
 import type { CreateGameData } from 'types/game';
 
-const Form = {
-  defaultValues: {
-    title: '',
-    playersCount: 3,
-    dealsCount: 5,
-    cardsOnHands: 5,
-  },
+const defaultValues = {
+  title: '',
+  playersCount: 3,
+  dealsCount: 5,
+  cardsOnHands: 5,
 };
 
 const prepareSubmitData = (data: CreateGameData) => ({
@@ -29,7 +37,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<CreateGameData>(Form);
+  } = useForm<CreateGameData>({ defaultValues });
 
   const onSubmit = handleSubmit(async values => {
     try {
@@ -51,14 +59,21 @@ export const CreateForm = ({ afterCreate }: Props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Кількість гравців"
-            {...register('playersCount')}
-            fullWidth
-            type="number"
-            variant="outlined"
-            disabled
-          />
+          <FormControl fullWidth>
+            <InputLabel id="playersCount">Кількість гравців</InputLabel>
+            <Select
+              labelId="playersCount"
+              label="Кількість гравців"
+              {...register('playersCount')}
+              defaultValue={defaultValues.playersCount}
+            >
+              {ALLOWED_PLAYERS_IN_GAME.map(count => (
+                <MenuItem key={count} value={count}>
+                  {count}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -67,6 +82,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
             fullWidth
             type="number"
             variant="outlined"
+            disabled
           />
         </Grid>
         <Grid item xs={6}>

@@ -32,10 +32,10 @@ export const ConfirmDialog = ({
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onClose}>
-          Cancel
+          Відмінити
         </Button>
         <Button variant="outlined" color="error" onClick={onConfirm}>
-          {confirnText ?? 'Confirm'}
+          {confirnText ?? 'Підтерджую'}
         </Button>
       </DialogActions>
     </Dialog>

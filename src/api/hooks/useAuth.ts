@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { ACCESS_TOKEN_KEY } from 'constants/localStorage';
 import { LoginData } from 'types/auth';
@@ -20,7 +21,7 @@ export const useAuth = () => {
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
       navigate('/');
     } catch (error) {
-      // TODO
+      toast.error(error?.response?.data?.message ?? error?.message);
     }
   };
 
@@ -31,7 +32,7 @@ export const useAuth = () => {
       localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
       navigate('/');
     } catch (error) {
-      // TODO
+      toast.error(error?.response?.data?.message ?? error?.message);
     }
   };
 

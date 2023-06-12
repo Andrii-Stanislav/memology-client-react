@@ -9,12 +9,13 @@ import { ConfirmDialog } from 'components/shared';
 import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
 type Props = {
-  mainPlayerId: number;
+  playerId: number;
+  playerName: string;
   gameId: number;
   userId: number;
 };
 
-export const LeaveGame = ({ mainPlayerId, gameId, userId }: Props) => {
+export const LeaveGame = ({ playerId, playerName, gameId, userId }: Props) => {
   const navigate = useNavigate();
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
 
@@ -22,8 +23,8 @@ export const LeaveGame = ({ mainPlayerId, gameId, userId }: Props) => {
   const onCloseLeave = () => setLeaveModalOpen(false);
 
   const onLeaveGame = () => {
-    leavePlayerFromGame(mainPlayerId).then(() => {
-      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, { gameId, userId });
+    leavePlayerFromGame(playerId).then(() => {
+      gameSocket.emit(GAME_WS_KEYS.LEAVE_GAME, { gameId, userId, playerName });
       navigate(ROUTES.GAMES);
     });
   };
@@ -32,17 +33,17 @@ export const LeaveGame = ({ mainPlayerId, gameId, userId }: Props) => {
     <>
       <Box position="absolute" top="5px" right="5px">
         <Button size="small" onClick={onOpenLeave}>
-          Leave game
+          Вийти з гри
         </Button>
       </Box>
 
       <ConfirmDialog
-        title="Leave game"
-        text="Are you sure you want to leave this game?"
+        title="Вийти з гри?"
+        text="Напевно, мамуля покликала їсти?)"
         open={leaveModalOpen}
         onClose={onCloseLeave}
         onConfirm={onLeaveGame}
-        confirnText="Leave"
+        confirnText="Точно, вийти!"
       />
     </>
   );

@@ -22,7 +22,9 @@ export const JoinView = ({ game, afterJoin }: Props) => {
 
   return (
     <Stack alignItems="center" spacing={2} py={2}>
-      <Typography variant="h5">Join {isCreator ? 'your' : ''} game</Typography>
+      <Typography variant="h5">
+        Приєднатися до{isCreator ? ' твоєї' : ''} гри
+      </Typography>
       <JoinForm
         disabledGameId
         disableJoinCode={isCreator}

@@ -149,7 +149,8 @@ export const GameplayView = ({ updateGame }: Props) => {
 
       {!gameFinished && (
         <LeaveGame
-          mainPlayerId={mainPlayer.id}
+          playerId={mainPlayer.id}
+          playerName={mainPlayer.name}
           gameId={game.id}
           userId={user?.id!}
         />
@@ -177,7 +178,7 @@ export const GameplayView = ({ updateGame }: Props) => {
       {mainPlayer?.status === PLAYER_STATUS.WAITING && (
         <Backdrop open>
           <Button variant="contained" onClick={onReadyClick}>
-            I am ready
+            Я готовий!
           </Button>
         </Backdrop>
       )}

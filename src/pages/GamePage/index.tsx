@@ -48,7 +48,7 @@ export const GamePage = () => {
   const game = data?.data;
 
   const afterJoin = () => {
-    gameSocket.emit(GAME_WS_KEYS.READY_FOR_GAME, {
+    gameSocket.emit(GAME_WS_KEYS.JOIN_GAME, {
       gameId: gameId,
       userId: user?.id,
     });
@@ -67,7 +67,7 @@ export const GamePage = () => {
     return (
       <Container component="main">
         <Typography variant="h5" textAlign="center" pt={3}>
-          Game not found
+          Гру не найдено
         </Typography>
       </Container>
     );

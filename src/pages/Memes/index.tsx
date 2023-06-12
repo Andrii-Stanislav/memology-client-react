@@ -31,9 +31,10 @@ export const Memes = () => {
   const openSuggestDialog = () => setSuggestDialog(true);
   const closeSuggestDialog = () => setSuggestDialog(false);
 
-  const onSuggestMeme = () => {
-    //
-  };
+  // TODO
+  // const onSuggestMeme = () => {
+  //
+  // };
 
   if (!memesIsLoaded) {
     return (

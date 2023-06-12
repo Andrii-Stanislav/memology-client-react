@@ -38,7 +38,7 @@ export const GamesTable = ({ games, isFetched }: Props) => {
 
   const onCopyGameLink = (gamePath: string) => {
     navigator.clipboard.writeText(`${window.location.origin}${gamePath}`);
-    toast.info('Посілання на гру скопійовано!');
+    toast.info('Посилання на гру скопійовано!');
   };
 
   if (isFetched && games?.length === 0) {
