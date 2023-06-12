@@ -6,8 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllCreatedGames, getAllParticipatedGames } from 'api/games';
 import { Modal } from 'components/shared';
 import { ROUTES } from 'constants/routes';
-import { useAppSelector } from 'store';
-import { getAllMemesCount } from 'store/memes';
+// import { useAppSelector } from 'store';
+// import { getAllMemesCount } from 'store/memes';
 
 import { CreateForm } from './CreateForm';
 import { JoinForm } from './JoinForm';
@@ -16,7 +16,7 @@ import { GamesTable } from './GamesTable';
 export const Games = () => {
   const navigate = useNavigate();
 
-  const allMemesCount = useAppSelector(getAllMemesCount);
+  // const allMemesCount = useAppSelector(getAllMemesCount);
 
   const { data: createdGames, isFetched: isFetchedCreatedGames } = useQuery({
     queryKey: ['getAllCreatedGames'],
