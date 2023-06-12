@@ -6,6 +6,8 @@ import {
   Backdrop,
   CircularProgress,
   Typography,
+  Button,
+  Box,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -14,7 +16,10 @@ import { useAppSelector } from 'store';
 import { getAllMemes, allMemesIsLoaded } from 'store/memes';
 import type { Meme } from 'types/meme';
 
+import { SuggestMemeForm } from './SuggestMemeForm';
+
 export const Memes = () => {
+  const [suggestDialog, setSuggestDialog] = useState(false);
   const [specificMeme, setSpecificMeme] = useState<Meme | null>(null);
   const handleClose = () => setSpecificMeme(null);
 
@@ -22,6 +27,14 @@ export const Memes = () => {
   const memes = useAppSelector(getAllMemes);
 
   const isLargeImage = (i: number) => i % 10 === 0 || (3 + i) % 10 === 0;
+
+  const openSuggestDialog = () => setSuggestDialog(true);
+  const closeSuggestDialog = () => setSuggestDialog(false);
+
+  // TODO
+  // const onSuggestMeme = () => {
+  //
+  // };
 
   if (!memesIsLoaded) {
     return (
@@ -33,6 +46,11 @@ export const Memes = () => {
 
   return (
     <Container component="main">
+      <Box pt={2} display="flex" justifyContent="center">
+        <Button variant="outlined" onClick={openSuggestDialog}>
+          Запропонувати мемасік
+        </Button>
+      </Box>
       <ImageList variant="quilted" cols={4} gap={16}>
         {memes.map((meme, index) => (
           <StyledImageListItem
@@ -49,7 +67,7 @@ export const Memes = () => {
       <Modal open={!!specificMeme} onClose={handleClose}>
         <GradientBox>
           <Typography variant="h5" p={2}>
-            Title: {specificMeme?.title ? specificMeme?.title : '-'}
+            Заловок: {specificMeme?.title ? specificMeme?.title : '-'}
           </Typography>
           <img
             width="100%"
@@ -58,10 +76,13 @@ export const Memes = () => {
             loading="lazy"
           />
           <Typography variant="body2" p={2}>
-            Description:{' '}
-            {specificMeme?.description ? specificMeme?.description : '-'}
+            Опис: {specificMeme?.description ? specificMeme?.description : '-'}
           </Typography>
         </GradientBox>
+      </Modal>
+
+      <Modal open={suggestDialog} onClose={closeSuggestDialog}>
+        <SuggestMemeForm afterSubmit={closeSuggestDialog} />
       </Modal>
     </Container>
   );

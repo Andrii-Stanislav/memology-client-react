@@ -4,7 +4,6 @@ import {
   AxiosInstance,
   AxiosResponse,
 } from 'axios';
-import { toast } from 'react-toastify';
 
 import { ACCESS_TOKEN_KEY } from 'constants/localStorage';
 
@@ -29,7 +28,6 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-  toast.error(error.toString());
   return Promise.reject(error);
 };
 

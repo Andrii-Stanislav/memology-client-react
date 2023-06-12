@@ -28,10 +28,10 @@ export const SituationControl = ({
       <Backdrop open>
         <Stack alignItems="center" spacing={2}>
           <Typography variant="h5" color="white">
-            In this round you will be judge!
+            В цьому раунді ти будеш суддею!
           </Typography>
           <Button variant="contained" onClick={showSituation}>
-            Start deal
+            Розпочати раунд
           </Button>
         </Stack>
       </Backdrop>

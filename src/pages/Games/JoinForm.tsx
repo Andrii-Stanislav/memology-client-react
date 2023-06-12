@@ -63,7 +63,7 @@ export const JoinForm = ({
     >
       <Stack spacing={2} width="auto">
         <TextField
-          label="Game ID"
+          label="ID гри"
           {...register('gameId')}
           type="number"
           fullWidth
@@ -71,7 +71,7 @@ export const JoinForm = ({
           disabled={disabledGameId || isSubmitting}
         />
         <StyledTextField
-          label="Game code"
+          label="Код приєднання до гри"
           {...register('joinCode')}
           InputProps={{
             inputComponent: NumericFormatCustom as any,
@@ -82,7 +82,7 @@ export const JoinForm = ({
           disabled={disableJoinCode || isSubmitting}
         />
         <TextField
-          label="Player name"
+          label="Нікнейм твого гравця"
           {...register('playerName')}
           fullWidth
           variant="outlined"
@@ -94,7 +94,7 @@ export const JoinForm = ({
           variant="outlined"
           disabled={isSubmitting}
         >
-          Join
+          Приєднатися
         </Button>
       </Stack>
     </Box>

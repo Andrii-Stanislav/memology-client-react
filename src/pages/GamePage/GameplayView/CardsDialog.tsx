@@ -41,8 +41,6 @@ export const CardsDialog = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedMeme, setSelectedMeme] = useState<Meme | null>(null);
 
-  // const disabledOpenDialog = userMadeBet || isJudge;
-
   const handleClickOpen = () => {
     if (isJudge) return;
     setOpenDialog(true);
@@ -64,8 +62,8 @@ export const CardsDialog = ({
       <StyledTooltip
         title={
           isJudge
-            ? "You can't throw a meme in this deal because you JUDGE!!!"
-            : 'Open meme cards'
+            ? 'В цьому раунді ти не граєш, бо ти СУДДЯ!!!'
+            : 'Відкрити свої меми'
         }
         onClick={handleClickOpen}
       >
@@ -117,7 +115,7 @@ export const CardsDialog = ({
                     variant="contained"
                     onClick={putCardOnTable.bind(null, selectedMeme!)}
                   >
-                    Select
+                    Обрати!
                   </Button>
                 </Box>
               )}

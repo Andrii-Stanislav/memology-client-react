@@ -1,4 +1,4 @@
-import { Typography, Stack, Backdrop, Button } from '@mui/material';
+import { Box, Typography, Stack, Backdrop, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { ROUTES } from 'constants/routes';
@@ -18,18 +18,25 @@ export const FinishedGame = () => {
 
   return (
     <Backdrop open>
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2}>
         <Typography variant="h3" color="white">
-          Game over
+          Гра закінчена
         </Typography>
         {players.map((player, index) => (
-          <Typography key={index} variant="h5" color="white">
-            #{index + 1} : {player?.name}. Wins: {player.victoryCount}
-          </Typography>
+          <Box key={index}>
+            <Typography variant="h5" color="white">
+              #{index + 1} : {player?.name}.
+            </Typography>
+            <Typography variant="subtitle1" color="white">
+              Виграних раундів: {player.victoryCount}
+            </Typography>
+          </Box>
         ))}
-        <Link to={ROUTES.GAMES}>
-          <Button variant="contained">Go to all games</Button>
-        </Link>
+        <Stack alignItems="center">
+          <Link to={ROUTES.GAMES}>
+            <Button variant="contained">Перейти до всіх ігор</Button>
+          </Link>
+        </Stack>
       </Stack>
     </Backdrop>
   );

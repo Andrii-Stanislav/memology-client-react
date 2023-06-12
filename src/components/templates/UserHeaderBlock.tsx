@@ -47,7 +47,7 @@ export const UserHeaderBlock = () => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Вийти
         </MenuItem>
       </Menu>
     </>

@@ -1,16 +1,24 @@
-import { Button, Box, Grid, TextField } from '@mui/material';
+import {
+  Button,
+  Box,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { createGame } from 'api/games';
+import { ALLOWED_PLAYERS_IN_GAME } from 'constants/game';
 import type { CreateGameData } from 'types/game';
 
-const Form = {
-  defaultValues: {
-    title: '',
-    playersCount: 3,
-    dealsCount: 5,
-    cardsOnHands: 5,
-  },
+const defaultValues = {
+  title: '',
+  playersCount: 3,
+  dealsCount: 5,
+  cardsOnHands: 5,
 };
 
 const prepareSubmitData = (data: CreateGameData) => ({
@@ -29,7 +37,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<CreateGameData>(Form);
+  } = useForm<CreateGameData>({ defaultValues });
 
   const onSubmit = handleSubmit(async values => {
     try {
@@ -43,7 +51,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Game name"
+            label="Назва гри"
             {...register('title')}
             fullWidth
             variant="outlined"
@@ -51,9 +59,26 @@ export const CreateForm = ({ afterCreate }: Props) => {
           />
         </Grid>
         <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel id="playersCount">Кількість гравців</InputLabel>
+            <Select
+              labelId="playersCount"
+              label="Кількість гравців"
+              {...register('playersCount')}
+              defaultValue={defaultValues.playersCount}
+            >
+              {ALLOWED_PLAYERS_IN_GAME.map(count => (
+                <MenuItem key={count} value={count}>
+                  {count}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
           <TextField
-            label="Players"
-            {...register('playersCount')}
+            label="Кількість роздач"
+            {...register('dealsCount')}
             fullWidth
             type="number"
             variant="outlined"
@@ -62,17 +87,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            label="Deals count"
-            {...register('dealsCount')}
-            fullWidth
-            type="number"
-            variant="outlined"
-            // disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Cards on hands"
+            label="Карт на руках"
             {...register('cardsOnHands')}
             fullWidth
             type="number"
@@ -89,7 +104,7 @@ export const CreateForm = ({ afterCreate }: Props) => {
           variant="outlined"
           disabled={isSubmitting}
         >
-          Create
+          Створити
         </Button>
       </Box>
     </Box>

@@ -10,10 +10,8 @@ type Props = {
 export const RunningLineLeft = ({ children, height = '65px' }: Props) => {
   return (
     <Wraper height={height}>
-      <InnerWraper height={height}>
-        <FirstTickerWrapper>{children}</FirstTickerWrapper>
-        <SecondFirstTickerWrapper>{children}</SecondFirstTickerWrapper>
-      </InnerWraper>
+      <FirstTickerWrapper>{children}</FirstTickerWrapper>
+      <SecondFirstTickerWrapper>{children}</SecondFirstTickerWrapper>
     </Wraper>
   );
 };
@@ -22,15 +20,6 @@ const Wraper = styled(Box)`
   overflow: hidden;
   position: relative;
   width: 100%;
-`;
-
-const InnerWraper = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 65px;
 `;
 
 const FirstTickerWrapper = styled(Box)`
@@ -43,14 +32,10 @@ const FirstTickerWrapper = styled(Box)`
   position: absolute;
   top: 0;
   right: 0;
-  animation: tickerLeft 30s infinite linear forwards;
+  animation: tickerLeftFirst 15s infinite linear forwards;
 
-  @keyframes tickerLeft {
+  @keyframes tickerLeftFirst {
     0% {
-      transform: translate(100%, 0);
-    }
-
-    50% {
       transform: translate(0, 0);
     }
 
@@ -61,6 +46,15 @@ const FirstTickerWrapper = styled(Box)`
 `;
 
 const SecondFirstTickerWrapper = styled(FirstTickerWrapper)`
-  transform: translate(100%, 0);
-  animation: 30s tickerLeft 15s infinite linear forwards;
+  animation: tickerLeftSecond 15s infinite linear forwards;
+
+  @keyframes tickerLeftSecond {
+    0% {
+      transform: translate(100%, 0);
+    }
+
+    100% {
+      transform: translate(0, 0);
+    }
+  }
 `;

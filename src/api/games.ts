@@ -8,7 +8,10 @@ import type {
 
 import { api } from './ApiService';
 
-export const getAllGames = () => api.get<Game[]>('/games');
+export const getAllCreatedGames = () => api.get<Game[]>('/games/created');
+
+export const getAllParticipatedGames = () =>
+  api.get<Game[]>('/games/participated');
 
 export const getGameById = (gameId: string) =>
   api.get<Game>(`/games/${gameId}`);

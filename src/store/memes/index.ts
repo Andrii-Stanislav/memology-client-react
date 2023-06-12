@@ -31,3 +31,6 @@ export const memesReducer = memesSlice.reducer;
 
 export const allMemesIsLoaded = (store: StoreType) => store.memes.isLoaded;
 export const getAllMemes = (store: StoreType) => store.memes.allMemesList;
+
+export const getAllMemesCount = (store: StoreType) =>
+  store.memes.allMemesList.length;

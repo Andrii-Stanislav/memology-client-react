@@ -4,3 +4,7 @@ export type Situation = {
   colors: string[];
   description?: string;
 };
+
+export type SuggestSituationFormType = {
+  text: string;
+};

@@ -2,6 +2,12 @@ import { NavLink } from 'react-router-dom';
 import { Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
+import {
+  Home,
+  TagFaces,
+  Description,
+  VideogameAsset,
+} from '@mui/icons-material';
 
 import { ROUTES } from 'constants/routes';
 
@@ -17,16 +23,27 @@ export const PageHeader = () => {
     <Header component="header">
       <Navigation>
         <NavLink to={ROUTES.HOME}>
-          <Button sx={getButtonSx(ROUTES.HOME)}>/ Home</Button>
+          <Button sx={getButtonSx(ROUTES.HOME)} startIcon={<Home />}>
+            / Головна
+          </Button>
         </NavLink>
         <NavLink to={ROUTES.MEMES}>
-          <Button sx={getButtonSx(ROUTES.MEMES)}>/ Memes</Button>
+          <Button sx={getButtonSx(ROUTES.MEMES)} startIcon={<TagFaces />}>
+            / Мемчики
+          </Button>
         </NavLink>
         <NavLink to={ROUTES.SITUATIONS}>
-          <Button sx={getButtonSx(ROUTES.SITUATIONS)}>/ Situations</Button>
+          <Button
+            sx={getButtonSx(ROUTES.SITUATIONS)}
+            startIcon={<Description />}
+          >
+            / Текстові картки
+          </Button>
         </NavLink>
         <NavLink to={ROUTES.GAMES}>
-          <Button sx={getButtonSx(ROUTES.GAMES)}>/ Games</Button>
+          <Button sx={getButtonSx(ROUTES.GAMES)} startIcon={<VideogameAsset />}>
+            / Ігри
+          </Button>
         </NavLink>
       </Navigation>
       <UserHeaderBlock />

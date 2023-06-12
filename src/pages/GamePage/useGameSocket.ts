@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { useAppDispatch } from 'store';
 import {
@@ -15,17 +16,18 @@ type Props = {
   updateGame: () => void;
 };
 
-// TODO - add notifications for socket events
 export const useGameSocket = ({ gameId, updateGame }: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const onPlayerJoin = () => {
       updateGame();
+      toast.info('+ 1 гравець у грі');
     };
 
-    const onPlayerLeave = (args: { userId: number }) => {
+    const onPlayerLeave = (args: { userId: number; playerName: string }) => {
       dispatch(removePlayerFromGame(args.userId));
+      toast.info(`Гравець "${args.playerName}" покинув гру((`);
     };
 
     const onPlayerReady = (args: { userId: number }) => {
@@ -34,6 +36,7 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
 
     const onGameStarted = () => {
       updateGame();
+      toast.info('Гра починається!)');
     };
 
     const onDealStarted = () => {
@@ -42,18 +45,22 @@ export const useGameSocket = ({ gameId, updateGame }: Props) => {
 
     const onBetCreate = (newBet: Bet) => {
       dispatch(addNewBet(newBet));
+      toast.info('Зацініть новий мем');
     };
 
     const onDealFinished = () => {
       updateGame();
+      toast.info('Роздачу завершено!');
     };
 
     const onNewDeal = () => {
       updateGame();
+      toast.info('Нова роздача!');
     };
 
     const onFinishGame = () => {
       updateGame();
+      toast.info('Гру закінчено!');
     };
 
     gameSocket.on(`${GAME_WS_KEYS.JOIN_GAME}/${gameId}`, onPlayerJoin);
