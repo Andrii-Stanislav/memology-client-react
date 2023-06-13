@@ -1,6 +1,6 @@
 import { useMemo, useEffect } from 'react';
 
-import { Box, Button, Backdrop } from '@mui/material';
+import { Box, Button, Typography, Backdrop } from '@mui/material';
 
 import { createNewDeal } from 'api/games';
 import { setPlayerReadyForGame, makeBet } from 'api/players';
@@ -128,6 +128,18 @@ export const GameplayView = ({ updateGame }: Props) => {
 
   return (
     <Box height="100%" p={2} position="relative">
+      {game.status === GAME_STATUS.NOT_STARTED && (
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography variant="h5">Код гри: {game.joinCode}</Typography>
+        </Box>
+      )}
+
       <GameTable
         players={players}
         playersCount={game.playersCount}

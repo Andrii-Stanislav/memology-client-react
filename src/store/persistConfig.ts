@@ -5,8 +5,8 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export const PERSIST_MIDDLEWARE_OPTIONS = {
   serializableCheck: {
@@ -15,8 +15,7 @@ export const PERSIST_MIDDLEWARE_OPTIONS = {
 };
 
 export const persistConfig = {
-  key: "memology:store",
-  keyPrefix: "",
+  key: 'memology:store',
+  keyPrefix: '',
   storage,
-  whitelist: ["user", "memes"],
 };
