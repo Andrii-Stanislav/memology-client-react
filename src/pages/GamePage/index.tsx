@@ -13,7 +13,7 @@ import { gameSocket, GAME_WS_KEYS } from 'webSocket';
 
 import { useAppDispatch, useAppSelector } from 'store';
 import { getUser } from 'store/user';
-import { setCurrentGame, clearCurrentGame, hasNoGame } from 'store/game';
+import { setCurrentGame, clearCurrentGame } from 'store/game';
 
 import { useGameSocket } from './useGameSocket';
 import { GameBackground } from './GameBackground';
@@ -25,7 +25,7 @@ export const GamePage = () => {
 
   const dispatch = useAppDispatch();
 
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetched } = useQuery({
     queryKey: ['getGameById', gameId],
     queryFn: ({ queryKey }) => getGameById(queryKey[1]!),
   });
@@ -44,7 +44,6 @@ export const GamePage = () => {
   useGameSocket({ gameId, updateGame: refetch });
 
   const user = useAppSelector(getUser);
-  const noGame = useAppSelector(hasNoGame);
   const game = data?.data;
 
   const afterJoin = () => {
@@ -55,7 +54,7 @@ export const GamePage = () => {
     refetch();
   };
 
-  if (noGame) {
+  if (!isFetched) {
     return (
       <Backdrop open>
         <CircularProgress color="inherit" />
@@ -73,7 +72,7 @@ export const GamePage = () => {
     );
   }
 
-  if (game.players.some(player => player.userId === user?.id)) {
+  if (isFetched && game.players.some(player => player.userId === user?.id)) {
     return (
       <GameBackground game={game}>
         <GameplayView updateGame={refetch} />;
